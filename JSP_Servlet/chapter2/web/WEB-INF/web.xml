@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+         version="4.0">
+    <servlet>
+        <servlet-name>HelloServlet</servlet-name>
+        <!--名字-->
+        <servlet-class>HelloServlet</servlet-class>
+        <!--Servlet 是 servlet-class 指定类的实例-->
+        <load-on-startup>1</load-on-startup>
+        <!--设置何时初始化, 值相同按照在web.xml中设置的顺序初始化-->
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>HelloServlet</servlet-name>
+        <url-pattern>/helloUser.view</url-pattern>
+        <!--如果客户端请求的URL是/helloUser.view, 则由HelloServlet这个Servlet来处理-->
+    </servlet-mapping>
+</web-app>
