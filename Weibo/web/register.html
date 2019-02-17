@@ -1,38 +1,16 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="zh">
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
           name="viewport">
     <meta content="ie=edge" http-equiv="X-UA-Compatible">
+    <link rel="stylesheet" type="text/css"href="style.css">
+
     <title>注册</title>
-    <style>
-        .textForm {
-            text-align: left;
-            width: 234px;
-            float: left;
-            /*margin-left: 10px;*/
-        }
-
-        .buttonForm {
-            /*margin-left: 10px;*/
-            margin-top: 10px;
-            background: beige;
-            font-size: inherit;
-            border-radius: 25px;
-            background: beige;
-            border: 2px solid burlywood;
-        }
-
-        #box {
-            width: 510px;
-            position: absolute;
-            top: 10px;
-            left: 20px;
-        }
-    </style>
 </head>
-<div id="box">
+<body>
+<div id="centerDiv">
     <h1 align="center">会员注册</h1>
     <form action="register.do" method="post">
         <div class="textForm">邮件地址：</div>
@@ -46,12 +24,11 @@
         <input class="buttonForm" type="submit" value="确认">
     </form>
 </div>
-
 <script>
     window.onload = function () {
         function box() {
             //获取DIV为‘box’的盒子
-            var oBox = document.getElementById('box');
+            var oBox = document.getElementById('centerDiv');
             //获取元素自身的宽度
             var L1 = oBox.offsetWidth;
             //获取实际页面的left值。（页面宽度减去元素自身宽度/2）
