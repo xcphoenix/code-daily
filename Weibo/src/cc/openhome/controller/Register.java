@@ -1,6 +1,8 @@
 /*
- * 微博：注册处理
- * */
+ * Weibo::Control - 注册处理
+ */
+
+package cc.openhome.controller;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,7 +20,7 @@ import java.util.List;
 
 @WebServlet("/register.do")
 public class Register extends HttpServlet {
-    private final String USERS = "/tmp/weibo/USER";
+    private final String USERS = "/WEB_INF/USERS";
     private final String SUCCESS_VIEW = "success.view";
     private final String ERROR_VIEW = "error.view";
 

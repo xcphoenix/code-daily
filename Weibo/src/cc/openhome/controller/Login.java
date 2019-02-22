@@ -1,6 +1,8 @@
 /*
-* 简单的微博 - 登录界面
-* */
+ * Weibo::Control - 登录
+ */
+
+package cc.openhome.controller;
 
 import java.io.*;
 
@@ -12,21 +14,21 @@ import javax.servlet.http.HttpServletRequest;
 
 @WebServlet("/login.do")
 public class Login extends HttpServlet {
-    private final String USERS = "/tmp/weibo/USER";
+    private final String USERS = "/WEB_INF/USERS";
     private final String SUCCESS_VIEW = "member.view";
     private final String ERROR_VIEW = "register.html";
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
+        String page = ERROR_VIEW;
+
         if (checkLogin(username, password)) {
-            request.getRequestDispatcher(SUCCESS_VIEW).forward(request, response);
-            // 符合转发到登录界面
+            request.getSession().setAttribute("login", username);
+            // 设定属性
+            page = SUCCESS_VIEW;
         }
-        else {
-            response.sendRedirect(ERROR_VIEW);
-            //　名称与密码不符合，回到首页
-        }
+        response.sendRedirect(page);
     }
 
     private boolean checkLogin(String username, String password) throws IOException {
