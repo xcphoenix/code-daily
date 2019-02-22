@@ -7,13 +7,13 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-  <head>
-    <title>$Title$</title>
-  </head>
-  <body>
-    <a href="login.html">注册</a><br>
-    <a href="questionnaire">翻页调查问卷</a><br>
-    <a href="search">URL重写</a><br>
-    <a href="counter">URL重写&&HttpSession</a><br>
-  </body>
+<head>
+	<title>$Title$</title>
+</head>
+<body>
+	<a href="login.html">注册</a><br>
+	<a href="questionnaire">翻页调查问卷</a><br>
+	<a href="search">URL重写</a><br>
+	<a href="counter">URL重写&&HttpSession</a><br>
+</body>
 </html>

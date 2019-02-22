@@ -1,0 +1,24 @@
+<%--.jspf文件通常是通过include伪指令包含在.jsp文件中的文件。'f'代表'fragment'，因为这些文件本身并不是完整的JSP--%>
+<%@page contentType="text/html; UTF-8" pageEncoding="UTF-8" %>
+<!doctype html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+	      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>示范开头</title>
+</head>
+	<body>
+
+
+
+
+
+
+
+
+
+
+
+		<h1>这是开头(其实我和body隔了12行～)</h1>
