@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+         version="4.0">
+    <!--ServletContext 初始参数-->
+    <context-param>
+        <param-name>JDBC_USERS</param-name>
+        <param-value>root</param-value>
+    </context-param>
+    <context-param>
+        <param-name>JDBC_PASSWORD</param-name>
+        <param-value>mysqlpass</param-value>
+    </context-param>
+    <context-param>
+        <param-name>JDBC_URL</param-name>
+        <param-value>jdbc:mysql://localhost:3306/SimpleWeibo</param-value>
+    </context-param>
+</web-app>
