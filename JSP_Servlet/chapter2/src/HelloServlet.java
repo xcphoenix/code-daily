@@ -16,6 +16,8 @@ public class HelloServlet extends HttpServlet{
     // 重新定义 doGet() 方法
     // 当浏览器GET方法发送请求时，会调用此方法
     // 容器接受到请求后，收集HTTP请求中的信息，分别创建代表请求和响应的Java对象
+
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // 设置响应内容类型，告知浏览器返回的内容要以text/html解析，并采用UTF-8编码方式
         response.setContentType("text/html;charset=UTF-8");
