@@ -3,6 +3,7 @@ package cc.xuanc.model;
 import java.io.*;
 import java.util.*;
 import java.sql.*;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * ClassName    SimpleWeibo-UserService
@@ -131,6 +132,93 @@ public class UserService {
     }
 
     /**
+     * description  新增微博
+     * @author      xuanc
+     * @date        下午9:51 19-3-4
+     * @param		blah 要新增的信息
+     */
+    public void addMessage(Blah blah) {
+        String username = blah.getUsername();
+        String message = blah.getMessage();
+
+        Connection conn = null;
+        Statement statement = null;
+        SQLException ex = null;
+
+        try {
+            conn = DriverManager.getConnection(jdbcUrl, jdbcUser, jdbcPassword);
+            statement = conn.createStatement();
+            String sqlString = "INSERT INTO `" + username + "` VALUES (CURRENT_TIMESTAMP(), '" + message + "');";
+            int tmp = statement.executeUpdate(sqlString);
+            System.out.println(tmp);
+        } catch (SQLException e) {
+            ex = e;
+        } finally {
+            dataClose(ex, statement, conn);
+        }
+    }
+
+    /**
+     * description  删除信息
+     * @author      xuanc
+     * @date        下午6:04 19-3-5
+     * @param		blah 要删除的消息
+     */
+    public void deleteMessage(Blah blah) {
+        String username = blah.getUsername();
+        String message = blah.getMessage();
+        String date = blah.getDate();
+
+        Connection conn = null;
+        Statement statement = null;
+        SQLException ex = null;
+
+        try {
+            conn = DriverManager.getConnection(jdbcUrl, jdbcUser, jdbcPassword);
+            statement = conn.createStatement();
+            String sqlString = "DELETE FROM `" + username + "` WHERE time = '" + date + "' AND message = '" + escapeSpecialChar(message) + "';";
+            statement.executeUpdate(sqlString);
+        } catch (SQLException e) {
+            ex = e;
+        } finally {
+            dataClose(ex, statement, conn);
+        }
+    }
+
+    /**
+     * description  获取用户发送的微博
+     * @author      xuanc
+     * @date        下午9:09 19-3-5
+     * @param		username 用户名
+     * @return      java.util.List<cc.xuanc.model.Blah>
+     */
+    public List<Blah> getBlahs(String username) {
+        List<Blah> lists = new ArrayList<Blah>();
+
+        Connection conn = null;
+        Statement statement = null;
+        SQLException ex = null;
+
+        try {
+            conn = DriverManager.getConnection(jdbcUrl, jdbcUser, jdbcPassword);
+            statement = conn.createStatement();
+            // 获取微博消息-按时间逆序获取
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM `" + username + "` ORDER BY `time` DESC; ");
+            while (resultSet.next()) {
+                Blah temp = new Blah(username, resultSet.getDate("time").toString(),
+                        resultSet.getString("message"));
+                lists.add(temp);
+            }
+        } catch (SQLException e) {
+            ex = e;
+        } finally {
+            dataClose(ex, statement, conn);
+        }
+
+        return lists;
+    }
+
+    /**
      * 关闭资源
      */
     private void dataClose(SQLException ex, Statement statement, Connection conn) {
@@ -152,5 +240,32 @@ public class UserService {
                 }
             }
         }
+
+        if (ex != null) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    /**
+     * description  Mysql 语句转义
+     * @author      xuanc
+     * @date        下午5:54 19-3-5
+     * @param		keyword sql 语句
+     * @return      java.lang.String 转义后的字符串
+     */
+    private static String escapeSpecialChar(String keyword){
+        // 判断某字符串是否不为空且长度不为0且不由空白符(whitespace) 构成
+        if (StringUtils.isNotBlank(keyword)) {
+            String[] fbsArr = { "\\", "$", "|","%","_" , "(", ")", "*", "+", ".", "[", "]", "?", "^", "{", "}"};
+            for (String key : fbsArr) {
+                // 方法返回true，当且仅当此字符串包含指定的char值序列
+                if (keyword.contains(key)) {
+                    // 方法替换此字符串相匹配的文字目标序列与指定的文字替换序列中的每个子字符串
+                    // String 继承于CharSequence，也就是说String也是CharSequence类型。
+                    keyword = keyword.replace(key, "\\" + key);
+                }
+            }
+        }
+        return keyword;
     }
 }

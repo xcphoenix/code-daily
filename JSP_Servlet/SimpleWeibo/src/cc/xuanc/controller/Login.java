@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet("/login.do")
 public class Login extends HttpServlet{
-    private final String SUCCESS_VIEW = "member.jsp";
+    private final String SUCCESS_VIEW = "message.do";
     private final String ERROR_VIEW = "index.jsp";
 
     @Override
@@ -31,6 +31,8 @@ public class Login extends HttpServlet{
 
         // 成功转发至会员页面
         if (userService.checkLogin(username, password)) {
+            // 设置 session，无须重复登录
+            request.getSession().setAttribute("login", username);
             response.sendRedirect(SUCCESS_VIEW);
         } else {
             request.setAttribute("error", "登录失败");
