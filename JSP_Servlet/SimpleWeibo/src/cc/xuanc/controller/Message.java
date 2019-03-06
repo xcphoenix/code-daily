@@ -30,6 +30,10 @@ public class Message extends HttpServlet {
         String message = request.getParameter("message");
         UserService userService = (UserService) getServletContext().getAttribute("userService");
 
+        // 获取微博
+        List<Blah> blahs = userService.getBlahs((String)request.getSession().getAttribute("login"));
+        request.setAttribute("blahs", blahs);
+
         if (message != null && message.length() != 0) {
             // 如果满足要求，添加消息
             if (message.length() <= contextLimit) {
@@ -38,20 +42,23 @@ public class Message extends HttpServlet {
                 msg.setMessage(message);
 
                 userService.addMessage(msg);
-                response.sendRedirect(SUCCESS_VIEW);
+                blahs = userService.getBlahs((String)request.getSession().getAttribute("login"));
+                request.setAttribute("blahs", blahs);
+
+                request.getRequestDispatcher(SUCCESS_VIEW).forward(request, response);
                 // response.sendRedirect（）使用注意事项
                 // 1. 重定向之后的代码会继续执行 （重定向代码之后加上return,可让之后的代码不再执行）
                 // 2. 当前程序所有代码执行完毕后,才会执行重定向跳转
                 // forward()后面的代码也会执行
-                return;
             } else {
                 request.setAttribute("error", "微博字数超出限制（234）");
+                request.setAttribute("msg", message);
+                request.getRequestDispatcher("member.jsp").forward(request, response);
             }
+        } else {
+            request.setAttribute("msg", "");
+            request.getRequestDispatcher(ERROR_VIEW).forward(request, response);
         }
-        List<Blah> blahs = userService.getBlahs((String)request.getSession().getAttribute("login"));
-        request.setAttribute("blahs", blahs);
-        request.setAttribute("msg", message == null ? "" : message);
-        request.getRequestDispatcher(ERROR_VIEW).forward(request, response);
     }
 
     @Override
