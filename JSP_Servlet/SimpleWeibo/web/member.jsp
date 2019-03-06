@@ -6,6 +6,9 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
+<%@page import="java.util.Date, java.text.SimpleDateFormat" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:setLocale value="zh-CN"/>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>
 <html lang="zh">
@@ -41,10 +44,11 @@
         <%--消息--%>
         <c:if test="${requestScope.blahs != null}">
             <c:forEach var="blah" items="${requestScope.blahs}">
-                <p>
-                        ${blah.message}
-                </p>
-                ${blah.username} - ${blah.date} <br/>
+                <%--使用<c:out>转义html字符--%>
+                <p><c:out value="${blah.message}" /></p>
+                <%--需要处理特殊字符--%>
+                ${blah.username} - <fmt:formatDate value="${blah.date}" type="both" timeStyle="full" dateStyle="full"/>
+                <a href=deleteMessage.do?date=${blah.date.time}>删除</a>  <br/>
                 <hr style="width: 70%;"/>
             </c:forEach>
         </c:if>
@@ -55,12 +59,12 @@
     </div>
 </div>
 <script>
+    <%--控制用户信息部分的宽度，使其与微博显示的页面等宽--%>
     window.onload = function () {
         var o = document.getElementById("message");
         var h = o.clientHeight||o.offsetHeight;
         document.getElementById("userData").style.height = h + "px";
     }
-
 </script>
 </body>
 </html>
