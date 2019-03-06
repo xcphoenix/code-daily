@@ -10,14 +10,15 @@ import java.util.*;
  * @date        19-3-4 下午9:37
  * @version     1.0
  */
-public class Blah implements Serializable{
+public class Blah implements Serializable {
     private String username;
-    private String date;
+    private Date date;
     private String message;
 
-    public Blah() {}
+    public Blah() {
+    }
 
-    public Blah(String username, String date, String message) {
+    public Blah(String username, Date date, String message) {
         this.username = username;
         this.date = date;
         this.message = message;
@@ -27,7 +28,7 @@ public class Blah implements Serializable{
         this.username = username;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
@@ -39,7 +40,7 @@ public class Blah implements Serializable{
         return this.username;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return this.date;
     }
 
@@ -47,3 +48,4 @@ public class Blah implements Serializable{
         return this.message;
     }
 }
+

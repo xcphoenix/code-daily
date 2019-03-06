@@ -3,6 +3,8 @@ package cc.xuanc.model;
 import java.io.*;
 import java.util.*;
 import java.sql.*;
+import java.util.Date;
+
 import org.apache.commons.lang.StringUtils;
 
 /**
@@ -11,7 +13,7 @@ import org.apache.commons.lang.StringUtils;
  * @author      xuanc
  * @date        19-3-4 下午4:03
  * @version     1.0
- */ 
+ */
 public class UserService {
 
     private String jdbcUser;
@@ -90,7 +92,7 @@ public class UserService {
             // 为用户创建表存储微博
             statement.executeUpdate(
                     "CREATE TABLE IF NOT EXISTS `" + username + "` (" +
-                          "`time` DATETIME NOT NULL," +
+                          "`time` INT NOT NULL," +
                           "`message` VARCHAR(256) NOT NULL);"
             );
         } catch (SQLException e) {
@@ -148,9 +150,8 @@ public class UserService {
         try {
             conn = DriverManager.getConnection(jdbcUrl, jdbcUser, jdbcPassword);
             statement = conn.createStatement();
-            String sqlString = "INSERT INTO `" + username + "` VALUES (CURRENT_TIMESTAMP(), '" + message + "');";
+            String sqlString = "INSERT INTO `" + username + "` VALUES (UNIX_TIMESTAMP(), '" + escapeSpecialChar(message) + "');";
             int tmp = statement.executeUpdate(sqlString);
-            System.out.println(tmp);
         } catch (SQLException e) {
             ex = e;
         } finally {
@@ -167,7 +168,7 @@ public class UserService {
     public void deleteMessage(Blah blah) {
         String username = blah.getUsername();
         String message = blah.getMessage();
-        String date = blah.getDate();
+        Date date = blah.getDate();
 
         Connection conn = null;
         Statement statement = null;
@@ -176,7 +177,9 @@ public class UserService {
         try {
             conn = DriverManager.getConnection(jdbcUrl, jdbcUser, jdbcPassword);
             statement = conn.createStatement();
-            String sqlString = "DELETE FROM `" + username + "` WHERE time = '" + date + "' AND message = '" + escapeSpecialChar(message) + "';";
+            // 时间戳转换为UNIX时间戳
+            String sqlString = "DELETE FROM `" + username + "` WHERE time = '" + date.getTime() / 1000 + "';";
+            System.out.println("sql: " + sqlString);
             statement.executeUpdate(sqlString);
         } catch (SQLException e) {
             ex = e;
@@ -205,7 +208,8 @@ public class UserService {
             // 获取微博消息-按时间逆序获取
             ResultSet resultSet = statement.executeQuery("SELECT * FROM `" + username + "` ORDER BY `time` DESC; ");
             while (resultSet.next()) {
-                Blah temp = new Blah(username, resultSet.getDate("time").toString(),
+                // UNIX时间戳转换为时间戳
+                Blah temp = new Blah(username, new Date(1000 * Long.parseLong(resultSet.getString("time")) ),
                         resultSet.getString("message"));
                 lists.add(temp);
             }
