@@ -17,14 +17,14 @@
     <title>个人主页 - ${sessionScope.login}</title>
 </head>
 <body>
-<div id="container" style="width: 100%; margin-top: 0;">
-    <div id="header" style="text-align: center; background-color: burlywood; margin-top: fill">
+<div id="container" style="width: 100%; ">
+    <div id="header" style="text-align: center; background-color: burlywood; padding: 5px">
         <h1>个人中心 - ${sessionScope.login}</h1>
     </div>
     <div id="userData" style="background-color: antiquewhite; height: 500px; width: 30%; float: left;">
         <br/>&emsp;<img src="images/avatar.jpg" style="border-radius: 50%; width: 100px; height: 100px;"/>
         <span style="vertical-align: top"><b>用户： ${sessionScope.login}</b></span><br/>
-        &emsp;some...
+        <%--&emsp;some...--%>
     </div>
     <div id="message" style="background-color: beige; width: 70%; float: left;">
         <%--输出存在的错误信息--%>
