@@ -18,12 +18,23 @@ import javax.servlet.http.HttpServletResponse;
 public class Logout extends HttpServlet {
     private String loginView = "index.jsp";
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
         // 销毁 Session
         request.getSession().invalidate();
         // 重定向至登录页面
         response.sendRedirect(loginView);
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+        processRequest(request, response);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
     }
 }
