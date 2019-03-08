@@ -40,27 +40,28 @@ public class GuestBookBean implements Serializable {
         try {
             conn = DriverManager.getConnection(jdbcUrl, username, password);
             // 获取SQL语言的代表对象
-            statement = conn.createStatement();
-            // 执行数据库操作
-            statement.executeUpdate(
-                    "INSERT INTO t_message(name, email, msg) VALUES (" +
-                            "'" + message.getName() + "'," +
-                            "'" + message.getEmail() + "'," +
-                            "'" + message.getMsg() + "')"
-            );
+            // statement = conn.createStatement();
+            // // 执行数据库操作
+            // statement.executeUpdate(
+            //         "INSERT INTO t_message(name, email, msg) VALUES (" +
+            //                 "'" + message.getName() + "'," +
+            //                 "'" + message.getEmail() + "'," +
+            //                 "'" + message.getMsg() + "')"
+            // );
+            // 使用预编译 sql 语句，'?' 为占位符
+            PreparedStatement stmt = conn.prepareStatement("" +
+                    "INSERT INTO t_message(name, email, msg) VALUES (?, ?, ?)");
+            // 设置参数
+            stmt.setString(1, message.getName());
+            stmt.setString(2, message.getEmail());
+            stmt.setString(3, message.getMsg());
+            // 执行
+            stmt.executeUpdate();
+            // 清除参数
+            stmt.clearParameters();
         } catch (SQLException e) {
             ex = e;
         } finally {
-            if (statement != null) {
-                try {
-                    statement.close();
-                } catch (SQLException e) {
-                    if (ex == null) {
-                        ex = e;
-                    }
-                }
-            }
-
             if (conn != null) {
                 try {
                     conn.close();
