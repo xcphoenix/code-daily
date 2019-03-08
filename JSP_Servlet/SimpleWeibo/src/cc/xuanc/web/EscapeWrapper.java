@@ -19,7 +19,13 @@ public class EscapeWrapper extends HttpServletRequestWrapper {
     @Override
     public String getParameter(String string) {
         String value = getRequest().getParameter(string);
+        if (value == null) {
+            return null;
+        }
         // 过滤html字符并返回
-        return StringEscapeUtils.escapeHtml(value);
+        value = StringEscapeUtils.escapeHtml(value);
+        return value.replace(" ", "&nbsp;").
+                replace(" ", "&emsp;").
+                replace(" ", "&ensp;");
     }
 }

@@ -28,6 +28,7 @@ public class Message extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         // 获取信息
         String message = request.getParameter("message");
+        System.out.println("msg: " + message);
         UserService userService = (UserService) getServletContext().getAttribute("userService");
 
         // 获取微博
@@ -37,6 +38,7 @@ public class Message extends HttpServlet {
         if (message != null && message.length() != 0) {
             // 如果满足要求，添加消息
             if (message.length() <= contextLimit) {
+                System.out.println(message);
                 Blah msg = new Blah();
                 msg.setUsername((String)request.getSession().getAttribute("login"));
                 msg.setMessage(message);

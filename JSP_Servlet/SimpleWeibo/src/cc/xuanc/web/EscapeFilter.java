@@ -18,7 +18,7 @@ import javax.servlet.annotation.WebFilter;
  * @date        19-3-6 下午6:22
  * @version     1.0
  */
-@WebFilter("/")
+@WebFilter("/*")
 public class EscapeFilter implements Filter{
 
     @Override
