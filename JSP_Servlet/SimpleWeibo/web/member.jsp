@@ -45,7 +45,7 @@
         <c:if test="${requestScope.blahs != null}">
             <c:forEach var="blah" items="${requestScope.blahs}">
                 <%--使用<c:out>转义html字符--%>
-                <p><c:out value="${blah.message}" /></p>
+                <p>${blah.message}</p>
                 <%--需要处理特殊字符--%>
                 ${blah.username} - <fmt:formatDate value="${blah.date}" type="both" timeStyle="full" dateStyle="full"/>
                 <a href=deleteMessage.do?date=${blah.date.time}>删除</a>  <br/>

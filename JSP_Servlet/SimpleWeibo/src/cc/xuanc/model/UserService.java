@@ -260,19 +260,19 @@ public class UserService {
      * @return      java.lang.String 转义后的字符串
      */
     private static String escapeSpecialChar(String keyword){
-        // // 判断某字符串是否不为空且长度不为0且不由空白符(whitespace) 构成
-        // if (StringUtils.isNotBlank(keyword)) {
-        //     String[] fbsArr = { "\\", "$", "|","%","_" , "(", ")", "*", "+", ".", "[", "]", "?", "^", "{", "}", "'"};
-        //     for (String key : fbsArr) {
-        //         // 方法返回true，当且仅当此字符串包含指定的char值序列
-        //         if (keyword.contains(key)) {
-        //             // 方法替换此字符串相匹配的文字目标序列与指定的文字替换序列中的每个子字符串
-        //             // String 继承于CharSequence，也就是说String也是CharSequence类型。
-        //             keyword = keyword.replace(key, "\\" + key);
-        //         }
-        //     }
-        // }
-        // return keyword;
-        return StringEscapeUtils.escapeSql(keyword);
+        // 判断某字符串是否不为空且长度不为0且不由空白符(whitespace) 构成
+        if (StringUtils.isNotBlank(keyword)) {
+            String[] fbsArr = { "\\", "$", "|","%","_" , "(", ")", "*", "+", ".", "[", "]", "?", "^", "{", "}", "'"};
+            for (String key : fbsArr) {
+                // 方法返回true，当且仅当此字符串包含指定的char值序列
+                if (keyword.contains(key)) {
+                    // 方法替换此字符串相匹配的文字目标序列与指定的文字替换序列中的每个子字符串
+                    // String 继承于CharSequence，也就是说String也是CharSequence类型。
+                    keyword = keyword.replace(key, "\\" + key);
+                }
+            }
+        }
+        return keyword;
+        // return StringEscapeUtils.escapeSql(keyword);
     }
 }
