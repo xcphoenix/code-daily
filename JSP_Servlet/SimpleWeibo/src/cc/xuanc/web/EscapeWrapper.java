@@ -26,6 +26,7 @@ public class EscapeWrapper extends HttpServletRequestWrapper {
         value = StringEscapeUtils.escapeHtml(value);
         return value.replace(" ", "&nbsp;").
                 replace(" ", "&emsp;").
-                replace(" ", "&ensp;");
+                replace(" ", "&ensp;").
+                replace("\n", "<br/>");
     }
 }
