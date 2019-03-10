@@ -50,7 +50,7 @@
             </div>
         </c:when>
         <c:otherwise>
-            <div id="errorMsg" style="color: red; vertical-align: center;">
+            <div id="errorMsg" style="color: red; text-align: center; vertical-align: center;">
                 <h2>用户${requestScope.username}不存在</h2>
             </div>
         </c:otherwise>

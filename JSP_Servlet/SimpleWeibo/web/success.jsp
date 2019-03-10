@@ -12,7 +12,10 @@
     <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
-    <h1>会员${param.username}注册成功</h1>
-    <a href="index.jsp" target="_self">回到首页登录</a>
+    <center>
+        <h1>会员${param.username}注册成功</h1>
+        <a href="index.jsp" target="_self">回到首页登录</a>
+    </center>
+
 </body>
 </html>
