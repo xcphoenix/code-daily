@@ -1,5 +1,7 @@
 package cc.xuanc.model;
 
+import org.apache.commons.lang.StringEscapeUtils;
+
 import java.io.Serializable;
 import java.util.*;
 
@@ -46,6 +48,14 @@ public class Blah implements Serializable {
 
     public String getMessage() {
         return this.message;
+    }
+
+    public String getEscapeMessage() {
+        String value = StringEscapeUtils.escapeHtml(this.message);
+        return value.replace(" ", "&nbsp;").
+                replace(" ", "&emsp;").
+                replace(" ", "&ensp;").
+                replace("\n", "<br/>");
     }
 }
 

@@ -15,6 +15,7 @@
 <head>
     <meta charset="UTF-8">
     <title>用户中心 - ${requestScope.username}</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
 <div id="container" style="width: 100%; ">
@@ -34,7 +35,7 @@
 
                 <c:forEach var="blah" items="${requestScope.blahs}">
                     <%--使用<c:out>转义html字符--%>
-                    <p><c:out value="${blah.message}" /></p>
+                    <p><c:out value="${blah.escapeMessage}" /></p>
                     <%--需要处理特殊字符--%>
                     ${blah.username} - <fmt:formatDate value="${blah.date}" type="both" timeStyle="full" dateStyle="full"/>
                     <hr style="width: 70%;"/>
