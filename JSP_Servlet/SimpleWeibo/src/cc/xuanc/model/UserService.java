@@ -262,7 +262,7 @@ public class UserService {
     private static String escapeSpecialChar(String keyword){
         // 判断某字符串是否不为空且长度不为0且不由空白符(whitespace) 构成
         if (StringUtils.isNotBlank(keyword)) {
-            String[] fbsArr = { "\\", "$", "|","%","_" , "(", ")", "*", "+", ".", "[", "]", "?", "^", "{", "}", "'"};
+            String[] fbsArr = { "\\", "$", "|" , "(", ")", "*", "+", ".", "[", "]", "?", "^", "{", "}", "'"};
             for (String key : fbsArr) {
                 // 方法返回true，当且仅当此字符串包含指定的char值序列
                 if (keyword.contains(key)) {
