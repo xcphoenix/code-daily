@@ -9,6 +9,12 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <fmt:setLocale value="zh-CN"/>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="blahs" value="${sessionScope.blahs}" scope="page"/>
+<c:set var="error" value="${sessionScope.error}" scope="page"/>
+<c:set var="msg" value="${sessionScope.msg}" scope="page"/>
+<%--<c:remove var="blahs" scope="session"/>--%>
+<c:remove var="error" scope="session"/>
+<c:remove var="msg" scope="session"/>
 <!doctype html>
 <html lang="zh">
 <head>
@@ -32,15 +38,15 @@
     </div>
     <div id="message">
         <%--输出存在的错误信息--%>
-        <c:if test="${requestScope.error != null}">
+        <c:if test="${pageScope.error != null}">
             <div id="error" style="color: red">
-                error: ${requestScope.error}<br/>
+                error: ${pageScope.error}<br/>
             </div>
         </c:if>
 
         <form action="message.do" method="get">
             <textarea name="message" value="" placeholder="发送一个微博～（234字以内）" autofocus cols="60"
-                      rows="10">${requestScope.msg}</textarea>
+                      rows="10">${pageScope.msg}</textarea>
             <br/><br/>
             <input type="submit" name="发布"/>
         </form>
@@ -48,8 +54,8 @@
 
         <%--消息--%>
 
-        <c:if test="${requestScope.blahs != null}">
-            <c:forEach var="blah" items="${requestScope.blahs}">
+        <c:if test="${pageScope.blahs != null}">
+            <c:forEach var="blah" items="${pageScope.blahs}">
                 <div class="weibo">
                     <p>${blah.escapeMessage}</p>
 
