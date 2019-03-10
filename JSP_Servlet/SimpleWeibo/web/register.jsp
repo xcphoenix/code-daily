@@ -10,6 +10,7 @@
 <html>
 <head>
     <title>SimpleWeibo 会员注册</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
 <h1 align="center">Simple Weibo</h1>
@@ -28,19 +29,19 @@
                 <tr>
                     <td><label for="username">名称&emsp;</label> </td>
                     <td>
-                        <input id="username" type="text" name="username"/>
+                        <input id="username" type="text" name="username" placeholder="用户名应为数字和字母的组合"/>
                     </td>
                 </tr>
                 <tr>
                     <td><label for="email">邮箱&emsp;</label> </td>
                     <td>
-                        <input id="email" type="text" name="email"/>
+                        <input id="email" type="text" name="email" placeholder="请输入正确的邮箱格式"/>
                     </td>
                 </tr>
                 <tr>
                     <td><label for="password">密码&emsp;</label> </td>
                     <td>
-                        <input id="password" type="password" name="password"/>
+                        <input id="password" type="password" name="password" placeholder="长度大于５且小于17"/>
                     </td>
                 </tr>
                 <tr>

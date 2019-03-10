@@ -9,6 +9,7 @@
 <html>
 <head>
     <title>SimpleWeibo</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
     <h1 align="center">Simple Weibo</h1>

@@ -15,30 +15,37 @@
 <head>
     <meta charset="UTF-8">
     <title>用户中心 - ${requestScope.username}</title>
-    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
 </head>
 <body>
-<div id="container" style="width: 100%; ">
-    <div id="header" style="text-align: center; background-color: burlywood; padding: 5px">
+<div id="container">
+    <div id="header">
         <h1>用户中心 - ${requestScope.username}</h1>
     </div>
     <c:choose>
         <c:when test="${requestScope.blahs != null}">
-            <div id="userData" style="background-color: antiquewhite; height: 500px; width: 30%; float: left;">
-                <br/>&emsp;<img src="../images/avatar.jpg" style="border-radius: 50%; width: 100px; height: 100px;"/>
-                <span style="vertical-align: top"><b>用户： ${requestScope.username}</b></span><br/>
-                    <%--&emsp;some...--%>
+            <div id="userData">
+                <div class="avatar">
+                    <img src="../images/avatar.jpg" alt="头像"/>
+                </div>
+                <div class="userMessage">
+                    <b>用户： ${requestScope.username}</b>
+                </div>
             </div>
-            <div id="message" style="background-color: beige; width: 70%; float: left;">
-
+            <div id="message">
                     <%--消息--%>
-
                 <c:forEach var="blah" items="${requestScope.blahs}">
-                    <%--使用<c:out>转义html字符--%>
-                    <p><c:out value="${blah.escapeMessage}" /></p>
-                    <%--需要处理特殊字符--%>
-                    ${blah.username} - <fmt:formatDate value="${blah.date}" type="both" timeStyle="full" dateStyle="full"/>
-                    <hr style="width: 70%;"/>
+                    <div class="weibo">
+                        <p>${blah.escapeMessage}</p>
+
+                        <span class="messageTime">
+                        ${blah.username} - <fmt:formatDate value="${blah.date}" type="both" timeStyle="full"
+                                                           dateStyle="full"/>
+                        <c:if test="${sessionScope.login != null && requestScope.username eq sessionScope.login}">
+                            <a href=deleteMessage.do?date=${blah.date.time}>删除</a>
+                        </c:if>
+                    </span>
+                    </div>
                 </c:forEach>
             </div>
         </c:when>
@@ -49,16 +56,26 @@
         </c:otherwise>
     </c:choose>
 
-    <div id="footer" style="background-color: bisque; text-align:center;">
+    <div id="footer">
         版权 © SimpleWeibo
     </div>
 </div>
 <script>
     <%--控制用户信息部分的宽度，使其与微博显示的页面等宽--%>
     window.onload = function () {
+        e();
+    };
+    window.onresize = function () {
+        e();
+    };
+
+    function e() {
         var o = document.getElementById("message");
-        var h = o.clientHeight||o.offsetHeight;
+        var h = o.clientHeight || o.offsetHeight;
         document.getElementById("userData").style.height = h + "px";
+
+        var pageWeight = document.body.clientWidth;
+        document.getElementById("message").style.width = pageWeight - 330 + "px";
     }
 </script>
 </body>

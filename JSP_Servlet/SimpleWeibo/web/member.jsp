@@ -26,8 +26,8 @@
             <img src="images/avatar.jpg" alt="头像"/>
         </div>
         <div class="userMessage">
-            <b>用户： ${sessionScope.login}</b>
-            <%--&emsp;some...--%>
+            <b>用户： ${sessionScope.login}</b><br/><br/>
+            <b><a href="logout.do">注销</a></b>
         </div>
     </div>
     <div id="message">
@@ -38,26 +38,30 @@
             </div>
         </c:if>
 
-        <form action="message.do" method="post">
-            <textarea name="message" value="" placeholder="发送一个微博～（234字以内）" autofocus cols="60" rows="10">${requestScope.msg}</textarea>
+        <form action="message.do" method="get">
+            <textarea name="message" value="" placeholder="发送一个微博～（234字以内）" autofocus cols="60"
+                      rows="10">${requestScope.msg}</textarea>
             <br/><br/>
             <input type="submit" name="发布"/>
         </form>
         <br/>
 
         <%--消息--%>
-        <div class="weibo">
-            <c:if test="${requestScope.blahs != null}">
-                <c:forEach var="blah" items="${requestScope.blahs}">
-                    <%--使用<c:out>转义html字符--%>
+
+        <c:if test="${requestScope.blahs != null}">
+            <c:forEach var="blah" items="${requestScope.blahs}">
+                <div class="weibo">
                     <p>${blah.escapeMessage}</p>
-                    <%--需要处理特殊字符--%>
-                    ${blah.username} - <fmt:formatDate value="${blah.date}" type="both" timeStyle="full" dateStyle="full"/>
-                    <a href=deleteMessage.do?date=${blah.date.time}>删除</a>  <br/>
-                    <hr style="width: 70%;"/>
-                </c:forEach>
-            </c:if>
-        </div>
+
+                    <span class="messageTime">
+                        ${blah.username} - <fmt:formatDate value="${blah.date}" type="both" timeStyle="full"
+                                                               dateStyle="full"/>
+                        <a href=deleteMessage.do?date=${blah.date.time}>删除</a>
+                    </span>
+                </div>
+            </c:forEach>
+        </c:if>
+
 
     </div>
     <div id="footer">
@@ -67,9 +71,19 @@
 <script>
     <%--控制用户信息部分的宽度，使其与微博显示的页面等宽--%>
     window.onload = function () {
+        e();
+    };
+    window.onresize = function () {
+        e();
+    };
+
+    function e() {
         var o = document.getElementById("message");
-        var h = o.clientHeight||o.offsetHeight;
-        document.getElementById("userData").style.height = h - 20 + "px";
+        var h = o.clientHeight || o.offsetHeight;
+        document.getElementById("userData").style.height = h + "px";
+
+        var pageWeight = document.body.clientWidth;
+        document.getElementById("message").style.width = pageWeight - 330 + "px";
     }
 </script>
 </body>
