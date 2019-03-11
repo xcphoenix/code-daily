@@ -29,8 +29,10 @@ div#message {
 /* 脚注 */
 #footer {
     clear: both;
-    background-color: bisque;
+    padding: 5px;
     text-align: center;
+    background-color: #393530;
+    color: #ffffff;
 }
 
 /* 用户消息 */
@@ -117,13 +119,17 @@ div#message {
     margin-bottom: 20px;
 
     border-style: solid;
-    border-width: 0px 0px 0px 5px;
+    border-width: 0 0 0 5px;
     border-color: rgba(62, 62, 62, 0.87);
 
     background-color: rgba(208, 208, 208, 0.35);
     opacity: 1;
 }
 
+.weibo p {
+    width: 90%;
+    word-wrap:break-word;
+}
 .messageTime {
     background-color: rgba(202, 202, 202, 0.35);
     border-radius: 5px;
