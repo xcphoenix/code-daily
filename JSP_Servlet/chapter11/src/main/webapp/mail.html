@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>发送邮件</title>
+</head>
+<body>
+    <form action="mail.do" method="post">
+        <input type="submit" value="发送"> <br/>
+        <label for="from">发信人: </label>
+        <input type="email" name="from" id="from"> <br/>
+        <label for="to">收信人: </label>
+        <input type="email" name="to" id="to"> <br/>
+        <label for="subject">主题&ensp;&ensp;: </label>
+        <input type="text" name="subject" id="subject"> <br/><br/>
+        <textarea cols="60" name="text"></textarea>
+    </form>
+</body>
+</html>
