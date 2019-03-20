@@ -19,7 +19,7 @@ import javax.inject.Named;
 @Named("sgtPeppers")
 public class SgtPeppers implements CompactDisc{
 
-    private String title = "Sgt. Pepper's Lonely Headers Club Band";
+    private String title = "Sgt. Pepper's Lonely Hearts Club Band";
     private String artist = "The Beatles";
 
     public void play() {

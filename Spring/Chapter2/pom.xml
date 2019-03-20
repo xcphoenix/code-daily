@@ -10,15 +10,20 @@
 
     <dependencies>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
             <groupId>org.sonatype.sisu</groupId>
             <artifactId>sisu-inject-bean</artifactId>
             <version>1.4.2</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+        </dependency>
+        <!--加入org.junit.contrib.java.lang.system.StandardOutputStreamLog;-->
+        <dependency>
+            <groupId>com.github.stefanbirkner</groupId>
+            <artifactId>system-rules</artifactId>
+            <version>1.4.0</version>
         </dependency>
     </dependencies>
 </project>
