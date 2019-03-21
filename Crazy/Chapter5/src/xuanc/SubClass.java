@@ -22,10 +22,10 @@ public class SubClass extends BaseClass{
     public String book = "轻量级 Java EE 企业应用实战";
     @Override
     public void test() {
-        System.out.println("子类覆盖父类的方法");
+        System.out.println("子类覆盖父类的方法" + book);
     }
     public void sub() {
-        System.out.println("子类的普通方法");
+        System.out.println("子类的普通方法" + book);
     }
     public static void main(String[] args) {
         BaseClass bc = new BaseClass();
