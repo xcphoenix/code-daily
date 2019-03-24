@@ -1,4 +1,4 @@
-package soundsystem;
+package javaconfig.soundsystem;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
  * @date 19-3-19 下午8:22
  */
 @Component
-public class CDPlayer implements MediaPlayer{
+public class CDPlayer implements MediaPlayer {
 
     private CompactDisc cd;
 

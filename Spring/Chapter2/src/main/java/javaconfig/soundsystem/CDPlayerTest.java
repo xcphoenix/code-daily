@@ -1,6 +1,5 @@
-package soundsystem;
+package javaconfig.soundsystem;
 
-import static org.junit.Assert.*;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.contrib.java.lang.system.StandardOutputStreamLog;
@@ -9,7 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.ArrayList;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * ClassName    Chapter2-CDPlayerTest
@@ -19,7 +19,7 @@ import java.util.ArrayList;
  * @version     1.0
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = CDPlayConfig.class)
+@ContextConfiguration(classes = CDPlayerConfig.class)
 public class CDPlayerTest {
 
     @Rule
