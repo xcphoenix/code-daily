@@ -18,11 +18,4 @@ public class GcTest {
             Runtime.getRuntime().gc();
         }
     }
-
-    @Override
-    public void finalize() throws Throwable {
-        System.out.println("系统正在清理GcTest对象的资源...");
-        super.finalize();
-    }
-
 }
