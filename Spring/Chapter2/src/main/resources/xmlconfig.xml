@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:c="http://www.springframework.org/schema/c"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/util
+       http://www.springframework.org/schema/util/spring-util-4.0.xsd">
+
+    <!--使用 XML 来启用组件扫描-->
+    <!--    <context:component-scan base-package="auto.soundsystem" />-->
+
+    <!--
+     如果声明 bean 时，不指定 id，那么这个 bean 将会根据全限定类名来命名
+     eg. ID: xml.soundsystem.SgtPeppers#0 ，#0 是一个计数的形式，来区分相同类型的 bean
+     ==========================================================================
+     当 Spring 发现这个 <bean> 元素时，会调用 SgtPeppers 的默认构造器来创建 bean
+
+    -->
+    <util:list id="trackList">
+        <value>Sgt. Pepper's Lonely Hearts Club Band</value>
+        <value>With a Little Help from My Friends</value>
+        <value>Lucy in the Sky with Diamonds</value>
+    </util:list>
+    <!--    <bean id="compactDisc" class="xml.soundsystem.SgtPeppers"/>-->
+    <!-- 使用字面量的形势注入到构造器中 -->
+    <bean id="compactDisc" class="xml.soundsystem.BlankDisc">
+        <!--        <constructor-arg value="Sgt. Pepper's Lonely Hearts Club Band" />-->
+        <!--        <constructor-arg value="The Beatles" />-->
+        <!--        &lt;!&ndash; value 属性表示给定的值以字面量的形式注入到构造器之中 &ndash;&gt;-->
+        <!--        <constructor-arg>-->
+        <!--            <list>-->
+        <!--                <value>Sgt. Pepper's Lonely Hearts Club Band</value>-->
+        <!--                <value>With a Little Help from My Friends</value>-->
+        <!--                <value>Lucy in the Sky with Diamonds</value>-->
+        <!--                &lt;!&ndash; Other... &ndash;&gt;-->
+        <!--            </list>-->
+        <!--        </constructor-arg>-->
+        <property name="title" value="Sgt. Pepper's Lonely Hearts Club Band"/>
+        <property name="artist" value="The Beatles"/>
+        <!--        <property name="tracks">-->
+        <!--            <list>-->
+        <!--                <value>Sgt. Pepper's Lonely Hearts Club Band</value>-->
+        <!--                <value>With a Little Help from My Friends</value>-->
+        <!--                <value>Lucy in the Sky with Diamonds</value>-->
+        <!--                &lt;!&ndash; Other... &ndash;&gt;-->
+        <!--            </list>-->
+        <!--        </property>-->
+        <property name="tracks" ref="trackList"/>
+    </bean>
+    <!--    <bean id="compactDisc" class="xml.soundsystem.BlankDisc" c:_0="Sgt. Pepper's Lonely Hearts Club Band" c:_1="The Beatles" />    -->
+
+    <!--
+      [借助构造器注入初始化 bean]
+      # <constructor-arg> 元素     // 冗长繁琐
+      # Spring 3.0 引入的 c-命名空间 // 有写事情无法实现
+    -->
+    <!-- #1 <constructor-arg> -->
+    <!--
+      将 SgtPeppers 注入到 CDPlayer
+    -->
+    <!--    <bean id="cdPlayer" class="xml.soundsystem.CDPlayer">-->
+    <!--        <constructor-arg ref="compactDisc"/>-->
+    <!--    </bean>-->
+    <!-- #2 c-命名空间 -->
+    <!-- c:cd-ref="......." cd 是构造器的参数名，移除调试标志可能无法正常执行，可以用'_' + 参数的索引来替代（只有一个参数也可以省略索引）-->
+    <!--    <bean id="cdPlayer" class="xml.soundsystem.CDPlayer" c:_0-ref="compactDisc" />-->
+    <bean id="cdPlayer" class="xml.soundsystem.CDPlayer" p:compactDisc-ref="compactDisc"/>
+    <!--    <bean id="cdPlayer" class="xml.soundsystem.CDPlayer">-->
+    <!--        <property name="compactDisc" ref="compactDisc" />-->
+    <!--    </bean>-->
+
+
+</beans>
