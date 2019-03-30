@@ -3,6 +3,8 @@ package xml.soundsystem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.inject.Named;
+
 /**
  * ClassName    Chapter2-CDPlayer
  * Description  通过为 bean 添加注解实现自动装配
@@ -11,18 +13,16 @@ import org.springframework.stereotype.Component;
  * @version 1.0
  * @date 19-3-19 下午8:22
  */
-@Component
 public class CDPlayer implements MediaPlayer {
 
-    private CompactDisc cd;
+    private CompactDisc compactDisc;
 
-    @Autowired
-    public CDPlayer(CompactDisc cd) {
-        this.cd = cd;
+    public void setCompactDisc (CompactDisc compactDisc) {
+        this.compactDisc = compactDisc;
     }
 
     public void play() {
-        cd.play();
+        compactDisc.play();
     }
 }
 /*

@@ -14,17 +14,28 @@ import static org.junit.Assert.assertNotNull;
 /**
  * ClassName    Chapter2-CDPlayerTest
  * Description  测试组扫描可以发现 CompactDisc
- * @author      xuanc
- * @date        19-3-18 下午10:22
- * @version     1.0
+ *
+ * @author xuanc
+ * @version 1.0
+ * @date 19-3-18 下午10:22
+ */
+
+/**
+ * 使用 junit4 测试
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = CDPlayerConfig.class)
+/**
+ * 加载 xml 配置文件
+ */
+@ContextConfiguration(locations = "classpath:xmlconfig.xml")
 public class CDPlayerTest {
 
     @Rule
     public final StandardOutputStreamLog log = new StandardOutputStreamLog();
 
+    /**
+     * spring 通过 xml 生成 bean 之后，任然需要 @Autowired 来加载 bean
+     */
     @Autowired
     private MediaPlayer player;
 
@@ -41,7 +52,10 @@ public class CDPlayerTest {
     public void play() {
         player.play();
         assertEquals(
-                "Playing Sgt. Pepper's Lonely Hearts Club Band by The Beatles\n",
+                "Playing Sgt. Pepper's Lonely Hearts Club Band by The Beatles\n" +
+                "-Track: Sgt. Pepper's Lonely Hearts Club Band\n" +
+                "-Track: With a Little Help from My Friends\n" +
+                "-Track: Lucy in the Sky with Diamonds\n",
                 log.getLog()
         );
     }
