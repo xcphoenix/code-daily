@@ -56,4 +56,5 @@ out/
 
 *.jpg   
 .attach*
-/temp       
+/temp      
+.ideaLib/ 
