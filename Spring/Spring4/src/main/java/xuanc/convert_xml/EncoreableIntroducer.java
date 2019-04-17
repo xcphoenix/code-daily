@@ -2,6 +2,7 @@ package xuanc.convert_xml;
 
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.DeclareParents;
+import org.springframework.stereotype.Component;
 
 /**
  * ClassName    Spring4-EncoreableIntroducer
@@ -11,10 +12,8 @@ import org.aspectj.lang.annotation.DeclareParents;
  * @date        19-4-17 下午3:45
  * @version     1.0
  */
-@Aspect
+@Component
 public class EncoreableIntroducer {
 
-    @DeclareParents(value = "xuanc.convert_xml.Performance+",
-            defaultImpl = DefaultEncoreable.class)
     public static Encoreable encoreable;
 }

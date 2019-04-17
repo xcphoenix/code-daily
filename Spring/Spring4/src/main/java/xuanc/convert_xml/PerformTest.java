@@ -26,8 +26,8 @@ public class PerformTest {
         performance.perform();
     }
 
-    // @Test
-    // public void testAddNewMethod() {
-    //     ((Encoreable)performance).performEncore();
-    // }
+    @Test
+    public void testAddNewMethod() {
+        ((Encoreable)performance).performEncore();
+    }
 }
