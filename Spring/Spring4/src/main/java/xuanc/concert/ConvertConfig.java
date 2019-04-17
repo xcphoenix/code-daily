@@ -27,4 +27,19 @@ public class ConvertConfig {
         return new Audience();
     }
 
+    /**
+     * AOP - 添加新的功能
+     */
+    @Bean
+    public EncoreableIntroducer encoreableIntroducer() {
+        return new EncoreableIntroducer();
+    }
+
+    /**
+     * Performance 实现类
+     */
+    @Bean
+    public Performance performance() {
+        return new XuptPerformance();
+    }
 }
