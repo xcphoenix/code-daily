@@ -18,7 +18,7 @@ import static org.junit.Assert.assertEquals;
  * @version     1.0
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = TrackCounterConfig.class)
+@ContextConfiguration(locations = "classpath:soundsystem.xml")
 public class TrackCounterTest {
 
     @Rule
