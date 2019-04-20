@@ -13,7 +13,7 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 public class SpittrWebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
     /**
-     * description 将 DispatcherServlet 映射到 "/"
+     * description 将一个或多个路径映射到 "/"
      */
     @Override
     protected String[] getServletMappings() {

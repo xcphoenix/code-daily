@@ -1,8 +1,10 @@
 package xuanc.spittr.web;
 
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+
+import static org.springframework.web.bind.annotation.RequestMethod.*;
 
 /**
  * ClassName    Chapter5-HomeController
@@ -13,13 +15,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * @version     1.0
  */
 @Controller
+@RequestMapping("/")
 public class HomeController {
+
+    public HomeController() {
+        System.out.println("控制器初始化....");
+    }
 
     /**
      * 处理对 "/" 的 GET 请求
      * @return 名为"home"的视图
      */
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(method = GET)
     public String home() {
         return "home";
     }
