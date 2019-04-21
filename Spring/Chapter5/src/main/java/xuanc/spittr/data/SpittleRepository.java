@@ -1,6 +1,6 @@
-package xuanc.spittr.Spittle;
+package xuanc.spittr.data;
 
-import xuanc.Spittle;
+import xuanc.spittr.Spittle;
 import java.util.List;
 
 /**
@@ -12,5 +12,11 @@ import java.util.List;
  * @version     1.0
  */ 
 public interface SpittleRepository {
+    /**
+     * 方法..
+     * @param max 最大值
+     * @param count 计数
+     * @return Spittle List
+     */
     List<Spittle> findSpittles(long max, int count);
 }

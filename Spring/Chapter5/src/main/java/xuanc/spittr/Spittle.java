@@ -1,4 +1,4 @@
-package xuanc;
+package xuanc.spittr;
 
 import org.apache.commons.lang3.builder.*;
 import java.util.Date;
@@ -18,6 +18,10 @@ public class Spittle {
     private final Date time;
     private Double latitude;
     private Double longtime;
+
+    public Spittle(String message, Date time) {
+        this(message, time, null, null);
+    }
 
     public Spittle(String message, Date time, Double longtime, Double latitude) {
         this.id = null;

@@ -18,6 +18,9 @@ import static org.springframework.web.bind.annotation.RequestMethod.*;
 @RequestMapping("/")
 public class HomeController {
 
+    /**
+     * 检查控制器是否生效
+     */
     public HomeController() {
         System.out.println("控制器初始化....");
     }
