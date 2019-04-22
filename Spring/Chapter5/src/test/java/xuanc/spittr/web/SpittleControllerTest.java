@@ -28,6 +28,10 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standal
  */ 
 public class SpittleControllerTest {
 
+    /**
+     * 使用 Mockito 测试最近的 Spittles
+     * @throws Exception exception
+     */
     @Test
     public void shouldShowRecentSpittles() throws Exception {
         // 创建一个 List
@@ -49,6 +53,47 @@ public class SpittleControllerTest {
                 .andExpect(view().name("spittles"))
                 .andExpect(model().attributeExists("spittleList"))
                 .andExpect(model().attribute("spittleList", hasItems(expectedSpittles.toArray())));
+    }
+
+    /**
+     * 测试分页 Spittles
+     * @throws Exception ...
+     */
+    @Test
+    public void shouldShowPagedSpittles() throws Exception {
+        List<Spittle> expectedSpittles = createSpitteList(50);
+        SpittleRepository mockRepository = mock(SpittleRepository.class);
+        when(mockRepository.findSpittles(238900, 50))
+                .thenReturn(expectedSpittles);
+
+        SpittleController controller = new SpittleController(mockRepository);
+        MockMvc mockMvc = standaloneSetup(controller)
+                .setSingleView(new InternalResourceView("/views/spittles.jsp"))
+                .build();
+        mockMvc.perform(get("/spittles?max=238900&count=50"))
+                .andExpect(view().name("spittles"))
+                .andExpect(model().attributeExists("spittleList"))
+                .andExpect(model().attribute("spittleList", hasItems(expectedSpittles.toArray())));
+    }
+
+    /**
+     * 测试对某个 Spittle 的请求，其中 ID 要在路径变量中指定
+     * @throws Exception ...
+     */
+    @Test
+    public void testSpittle() throws Exception {
+        Spittle expectedSpittle = new Spittle("Hello", new Date());
+        SpittleRepository mockRepository = mock(SpittleRepository.class);
+        when(mockRepository.findOne(12345)).thenReturn(expectedSpittle);
+
+        SpittleController controller = new SpittleController(mockRepository);
+        MockMvc mockMvc = standaloneSetup(controller).build();
+
+        // 模拟通过路径来请求资源
+        mockMvc.perform(get("/spittles/12345"))
+                .andExpect(view().name("spittle"))
+                .andExpect(model().attributeExists("spittle"))
+                .andExpect(model().attribute("spittle", expectedSpittle));
     }
 
     private List<Spittle> createSpitteList(int count) {

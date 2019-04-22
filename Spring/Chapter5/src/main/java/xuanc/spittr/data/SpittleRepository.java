@@ -19,4 +19,11 @@ public interface SpittleRepository {
      * @return Spittle List
      */
     List<Spittle> findSpittles(long max, int count);
+
+    /**
+     * 方法...
+     * @param spittleId ...
+     * @return Spittle
+     */
+    Spittle findOne(long spittleId);
 }
