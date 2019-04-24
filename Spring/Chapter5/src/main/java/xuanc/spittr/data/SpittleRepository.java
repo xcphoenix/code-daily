@@ -1,5 +1,6 @@
 package xuanc.spittr.data;
 
+import xuanc.spittr.Spitter;
 import xuanc.spittr.Spittle;
 import java.util.List;
 
