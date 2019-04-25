@@ -1,4 +1,4 @@
-package com.lean.ssm.chapter2.proxy.interceptor;
+package com.learn.ssm.chapter2.proxy.interceptor;
 
 import java.lang.reflect.Method;
 

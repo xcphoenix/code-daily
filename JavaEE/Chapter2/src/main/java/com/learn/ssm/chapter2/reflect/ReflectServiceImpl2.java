@@ -1,4 +1,4 @@
-package com.lean.ssm.chapter2.reflect;
+package com.learn.ssm.chapter2.reflect;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -26,7 +26,7 @@ public class ReflectServiceImpl2 {
         ReflectServiceImpl2 object = null;
         try {
             object = (ReflectServiceImpl2)
-                    Class.forName("com.lean.ssm.chapter2.reflect.ReflectServiceImpl2")
+                    Class.forName("com.learn.ssm.chapter2.reflect.ReflectServiceImpl2")
                             .getConstructor(String.class)
                             .newInstance("张三");
         } catch (ClassNotFoundException | InstantiationException

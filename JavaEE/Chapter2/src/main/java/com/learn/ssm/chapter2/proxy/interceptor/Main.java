@@ -1,7 +1,7 @@
-package com.lean.ssm.chapter2.proxy.interceptor;
+package com.learn.ssm.chapter2.proxy.interceptor;
 
-import com.lean.ssm.chapter2.proxy.jdk.HelloWorld;
-import com.lean.ssm.chapter2.proxy.jdk.HelloWorldImp1;
+import com.learn.ssm.chapter2.proxy.jdk.HelloWorld;
+import com.learn.ssm.chapter2.proxy.jdk.HelloWorldImp1;
 
 /**
  * ClassName    Chapter2-Main
@@ -14,7 +14,7 @@ import com.lean.ssm.chapter2.proxy.jdk.HelloWorldImp1;
 public class Main {
     public static void main(String[] args) {
         HelloWorld proxy = (HelloWorld)InterceptorJdkProxy.bind(new HelloWorldImp1(),
-                "com.lean.ssm.chapter2.proxy.interceptor.MyInterceptor");
+                "MyInterceptor");
         proxy.sayHelloWorld();
     }
 }

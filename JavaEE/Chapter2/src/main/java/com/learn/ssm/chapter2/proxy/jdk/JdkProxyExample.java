@@ -1,4 +1,4 @@
-package com.lean.ssm.chapter2.proxy.jdk;
+package com.learn.ssm.chapter2.proxy.jdk;
 
 import org.junit.jupiter.api.Test;
 

@@ -1,6 +1,6 @@
-package com.lean.ssm.chapter2.proxy.cglib;
+package com.learn.ssm.chapter2.proxy.cglib;
 
-import com.lean.ssm.chapter2.reflect.ReflectServiceImpl;
+import com.learn.ssm.chapter2.reflect.ReflectServiceImpl;
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;

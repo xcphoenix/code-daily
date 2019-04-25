@@ -1,4 +1,4 @@
-package com.lean.ssm.chapter2.reflect;
+package com.learn.ssm.chapter2.reflect;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -27,7 +27,7 @@ public class ReflectServiceImpl {
                     /*
                      * 给类加载器注册了一个类的全限定名
                      */
-                    Class.forName("com.lean.ssm.chapter2.reflect.ReflectServiceImpl")
+                    Class.forName("com.learn.ssm.chapter2.reflect.ReflectServiceImpl")
                     /*
                      * 通过 newInstance 方法初始化一个类对象
                      */
@@ -64,7 +64,7 @@ public class ReflectServiceImpl {
         ReflectServiceImpl object = null;
         try {
             object = (ReflectServiceImpl)
-                    Class.forName("com.lean.ssm.chapter2.reflect.ReflectServiceImpl")
+                    Class.forName("com.learn.ssm.chapter2.reflect.ReflectServiceImpl")
                     .newInstance();
             Method method = object.getClass().getMethod("sayHello", String.class);
             method.invoke(object, "张三");
