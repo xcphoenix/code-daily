@@ -26,8 +26,10 @@
         </environment>
     </environments>
 
+    <!--
+        全部扫描会导致 bug ...
+    -->
     <mappers>
         <package name="com.ssm.chapter5.mapper" />
-        <package name="com.ssm.chapter5.mapper2" />
     </mappers>
 </configuration>

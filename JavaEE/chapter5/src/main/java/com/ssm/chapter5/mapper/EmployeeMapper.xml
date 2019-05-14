@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--
+    对应雇员表
+    ********
+ -->
+<mapper namespace="com.ssm.chapter5.mapper.EmployeeMapper">
+
+    <resultMap id="employee" type="com.ssm.chapter5.pojo.Employee">
+        <id column="id" property="id" />
+        <result column="real_name" property="realName" />
+        <result column="sex" property="sex" typeHandler="com.ssm.chapter5.typeHandler.SexTypeHandler" />
+        <result column="birthday" property="birthday" />
+        <result column="mobile" property="mobile" />
+        <result column="email" property="email" />
+        <result column="position" property="position" />
+        <result column="note" property="note" />
+        <!--一对一级联-->
+        <association property="workCard" column="id"
+                     select="com.ssm.chapter5.mapper.WorkCardMapper.getWorkCardByEmpId" />
+        <!--一对多级联-->
+        <collection property="employeeTaskList" column="id"
+                    select="com.ssm.chapter5.mapper.EmployeeTaskMapper.getEmployeeTaskByEmpId" />
+        <!--鉴别器-->
+        <!--
+           属性 column 代表使用哪个字段进行鉴别
+           子元素 case，用于区分，类似 switch ... case ...
+           resultMap 表示用哪个 ResultMap 来去映射
+         -->
+        <discriminator javaType="long" column="sex">
+            <case value="1" resultMap="maleHealthFormMapper" />
+            <case value="2" resultMap="femaleHealthFormMapper" />
+        </discriminator>
+    </resultMap>
+
+    <!-- extends 继承其他的 resultMap -->
+    <resultMap id="maleHealthFormMapper" type="com.ssm.chapter5.pojo.MaleEmployee"
+               extends="employee">
+        <association property="maleHealthForm" column="id"
+                     select="com.ssm.chapter5.mapper.MaleHealthFormMapper.getMaleHealthForm" />
+    </resultMap>
+
+    <resultMap id="femaleHealthFormMapper" type="com.ssm.chapter5.pojo.FemaleEmployee"
+               extends="employee">
+        <association property="femaleHealthForm" column="id"
+                     select="com.ssm.chapter5.mapper.FemaleHealthFormMapper.getFemaleHealthForm" />
+    </resultMap>
+
+    <select id="getEmployee" resultType="com.ssm.chapter5.pojo.Employee">
+        select id, real_name as realName, sex, birthday, mobile, email,
+               POSITION as position, note
+            from t_employee where id = #{id}
+    </select>
+</mapper>
