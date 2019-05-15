@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+         version="4.0">
+
+    <!--
+       配置 Spring MVC 的文件
+     -->
+
+    <!--
+        配置 Spring IoC 配置文件路径
+        多个文件以逗号分隔开，支持正则表达式
+     -->
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>/WEB-INF/applicationContext.xml</param-value>
+    </context-param>
+
+    <!-- 配置 ContextLoaderListener 用以初始化 Spring IoC 容器 -->
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+    <!--
+        配置 DispatcherServlet
+        Spring MVC 框架会根据 servlet-name 来加载 /WEB-INF/[servlet-name]-servlet.xml 作为配置文件
+     -->
+    <servlet>
+        <servlet-name>dispatcher</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <!-- 设置启动级别 -->
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+
+    <!--
+        Servlet 拦截配置
+     -->
+    <servlet-mapping>
+        <servlet-name>dispatcher</servlet-name>
+        <url-pattern>*.do</url-pattern>
+    </servlet-mapping>
+</web-app>
