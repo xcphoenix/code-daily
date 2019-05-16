@@ -18,26 +18,26 @@
     </context-param>
 
     <!-- 配置 ContextLoaderListener 用以初始化 Spring IoC 容器 -->
-    <listener>
-        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-    </listener>
+    <!--<listener>-->
+    <!--    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>-->
+    <!--</listener>-->
 
     <!--
         配置 DispatcherServlet
         Spring MVC 框架会根据 servlet-name 来加载 /WEB-INF/[servlet-name]-servlet.xml 作为配置文件
      -->
-    <servlet>
-        <servlet-name>dispatcher</servlet-name>
-        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-        <!-- 设置启动级别 -->
-        <load-on-startup>2</load-on-startup>
-    </servlet>
+    <!--<servlet>-->
+    <!--    <servlet-name>dispatcher</servlet-name>-->
+    <!--    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>-->
+    <!--    &lt;!&ndash; 设置启动级别 &ndash;&gt;-->
+    <!--    <load-on-startup>2</load-on-startup>-->
+    <!--</servlet>-->
 
     <!--
         Servlet 拦截配置
      -->
-    <servlet-mapping>
-        <servlet-name>dispatcher</servlet-name>
-        <url-pattern>*.do</url-pattern>
-    </servlet-mapping>
+    <!--<servlet-mapping>-->
+    <!--    <servlet-name>dispatcher</servlet-name>-->
+    <!--    <url-pattern>*.do</url-pattern>-->
+    <!--</servlet-mapping>-->
 </web-app>
