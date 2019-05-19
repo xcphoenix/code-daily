@@ -1,6 +1,5 @@
 package com.ssm.chapter14.dao;
 
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import com.ssm.chapter14.pojo.Role;
@@ -13,7 +12,7 @@ import com.ssm.chapter14.pojo.Role;
  * @version 1.0
  * @date 19-5-16 下午10:03
  */
-@Component
+@Repository
 public interface RoleDao {
 
     public Role getRole(Long id);

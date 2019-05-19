@@ -13,7 +13,10 @@ import com.ssm.chapter14.dao.RoleDao;
 import com.ssm.chapter14.pojo.Role;
 import com.ssm.chapter14.service.RoleService;
 
-@Component
+/**
+ * @author xuanc
+ */
+@Component("roleService")
 public class RoleServiceImpl implements RoleService {
 
     @Autowired
