@@ -17,7 +17,7 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
  * @date 19-5-19 下午8:57
  */
 @ComponentScan(basePackages = "com.ssm.chapter10.annotation")
-// @ImportResource({"classpath:spring-dataSource.xml"})
+@ImportResource({"classpath:spring-dataSource.xml"})
 @PropertySource(value = {"classpath:database-config.properties"}, ignoreResourceNotFound = true)
 public class ApplicationConfig {
 
