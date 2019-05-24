@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 引入对应的 XML 模式文件（XSD） -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:c="http://www.springframework.org/schema/c"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+	<!-- 使用 XML 装配 -->
+	
+	<!-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> -->
+	<!--
+		构造器注入
+		缺点：参数多会导致可读性变差
+	-->
+	<!--<bean id="role1" class="com.ssm.chapter9.pojo.Role">-->
+	<!--	<constructor-arg index="0" value="总经理" />-->
+	<!--	<constructor-arg index="1" value="公司管理者" />-->
+	<!--</bean>-->
+	
+	<!--
+		setter 注入 - Spring 中主流的注入方式
+	-->
+	<!--<bean id="role2" class="com.ssm.chapter9.pojo.Role">-->
+	<!--	<property name="id" value="1" />-->
+	<!--	<property name="roleName" value="高级工程师" />-->
+	<!--	<property name="note" value="重要人员" />-->
+	<!--</bean>-->
+	
+	<!--
+		果汁制造器的配置 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	-->
+	<bean id="source" class="com.ssm.chapter9.pojo.Source">
+		<property name="fruit" value="橙汁" />
+		<property name="sugar" value="少糖" />
+		<property name="size" value="大杯" />
+	</bean>
+	
+	<bean id="juiceMake2" class="com.ssm.chapter9.pojo.JuiceMaker2">
+		<property name="beverageShop" value="贡茶" />
+		<!-- 使用 ref 来引用对应的 bean -->
+		<property name="source" ref="source" />
+	</bean>
+	
+	<!--
+		装配集合类 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	-->
+	<bean id="complexAssembly" class="com.ssm.chapter10.pojo.ComplexAssembly">
+		<property name="id" value="1" />
+		<property name="list">
+			<list>
+				<value>value-list-1</value>
+				<value>value-list-2</value>
+				<value>value-list-3</value>
+			</list>
+		</property>
+		<property name="map">
+			<map>
+				<entry key="key1" value="value-key-1" />
+				<entry key="key2" value="value-key-2" />
+				<entry key="key3" value="value-key-3" />
+			</map>
+		</property>
+		<property name="props">
+			<props>
+				<prop key="prop1">value-1-prop-1</prop>
+				<prop key="prop2">value-1-prop-2</prop>
+				<prop key="prop3">value-1-prop-3</prop>
+			</props>
+		</property>
+		<property name="set">
+			<set>
+				<value>value-set-1</value>
+				<value>value-set-2</value>
+				<value>value-set-3</value>
+			</set>
+		</property>
+		<property name="array">
+			<array>
+				<value>value-array-1</value>
+				<value>value-array-2</value>
+				<value>value-array-3</value>
+			</array>
+		</property>
+	</bean>
+	
+	<!--
+		配置用户角色 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	-->
+	<bean id="role1" class="com.ssm.chapter10.pojo.Role"
+	      c:_0="1" c:_1="role_name" c:_2="role_note_1" />
+	<bean id="role2" class="com.ssm.chapter10.pojo.Role"
+	      p:id="2" p:roleName="role_name" p:note="role_note_2" />
+	<bean id="user1" class="com.ssm.chapter10.pojo.User"
+	      p:id="1" p:userName="role_name_1" p:note="user_note_1" />
+	<bean id="user2" class="com.ssm.chapter10.pojo.User"
+	      p:id="2" p:userName="role_name_2" p:note="user_note_2" />
+	
+	<util:list id="list">
+		<ref bean="role1" />
+		<ref bean="role2" />
+	</util:list>
+	
+	<util:map id="map">
+		<entry key-ref="role1" value-ref="user1" />
+		<entry key-ref="role2" value-ref="user2" />
+	</util:map>
+	
+	<util:set id="set">
+		<ref bean="role1" />
+		<ref bean="role2" />
+	</util:set>
+	
+	<bean id="userRoleAssembly" class="com.ssm.chapter10.pojo.UserRoleAssembly"
+			p:id="1" p:list-ref="list" p:map-ref="map" p:set-ref="set" />
+	
+</beans>

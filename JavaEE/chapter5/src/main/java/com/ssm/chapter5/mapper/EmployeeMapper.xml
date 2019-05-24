@@ -47,7 +47,7 @@
                      select="com.ssm.chapter5.mapper.FemaleHealthFormMapper.getFemaleHealthForm" />
     </resultMap>
 
-    <select id="getEmployee" resultType="com.ssm.chapter5.pojo.Employee">
+    <select id="getEmployee" resultMap="employee">
         select id, real_name as realName, sex, birthday, mobile, email,
                POSITION as position, note
             from t_employee where id = #{id}
