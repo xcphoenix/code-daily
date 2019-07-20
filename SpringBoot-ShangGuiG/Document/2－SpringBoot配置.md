@@ -352,5 +352,254 @@ spring:
 
 ## 配置文件的加载位置
 
+SpringBoot 启动会扫描以下位置的 application.properties或者 application.yml 文件作为 SpringBoot 的默认配置文件：（Idea 中类路径即 *classpath:*对应 **resources** 目录）
 
+- file:/config/
+- file:/
+- classpath:/config
+- classpath:/
+
+以上按照优先级从高到低的顺序，所有位置的文件都会被加载，高优先级配置的内容会覆盖低优先级配置的内容，也可以通过配置 `spring.config.location` 来改变默认内容。
+
+![](https://gitee.com/PhoenixBM/FigureBed/raw/picgo/img/20190720084452.png)
+
+SpringBoot 会加载上述的所有文件，只是如果配置冲突，高优先级的配置文件中的设置会覆盖低优先级配置文件的设置，低优先级的其他配置依然会生效。
+
+例如在上述四个配置文件中分别定义不同的端口号，在 /resource/application.properties 文件中定义项目的访问路径，那么运行后低优先级配置的项目访问路径仍然有效：
+
+```properties
+server.port=8081
+
+# 配置项目的访问路径
+server.servlet.context-path=/springboot-demo
+# 新版本的配置改为：server.servlet.context-path，而不是　server.context-path
+```
+
+![1563584399179](../images/1563584399179.png)
+
+### 指定配置文件路径
+
+项目打包好后，可以使用**命令行参数**的形式，在启动项目时指定配置文件的新位置，指定的配置文件和默认加载的配置文件会共同启动作用，形成互补配置。
+
+直接在上述的四个配置文件中指定 `spring.config.location` 并不会生效。
+
+
+
+## 外部配置的加载顺序
+
+[官网文档中文手册](https://qbgbook.gitbooks.io/spring-boot-reference-guide-zh/content/IV.%20Spring%20Boot%20features/24.%20Externalized%20Configuration.html)上提到的外部配置的加载顺序：
+
+> Spring Boot允许将配置外部化（externalize），这样你就能够在不同的环境下使用相同的代码。你可以使用properties文件，YAML文件，环境变量和命令行参数来外部化配置。使用@Value注解，可以直接将属性值注入到beans中，然后通过Spring的`Environment`抽象或通过`@ConfigurationProperties`[绑定到结构化对象](http://docs.spring.io/spring-boot/docs/1.4.1.RELEASE/reference/htmlsingle/#boot-features-external-config-typesafe-configuration-properties)来访问。
+>
+> Spring Boot设计了一个非常特别的`PropertySource`顺序，以允许对属性值进行合理的覆盖，属性会以如下的顺序进行设值：（优先级从高到低，高优先级覆盖低优先级，形成互补）
+>
+> 1. home目录下的[devtools全局设置属性](http://docs.spring.io/spring-boot/docs/1.4.1.RELEASE/reference/htmlsingle/#using-boot-devtools-globalsettings)（`~/.spring-boot-devtools.properties`，如果devtools激活）。
+> 2. 测试用例上的[@TestPropertySource](http://docs.spring.io/spring/docs/4.3.3.RELEASE/javadoc-api/org/springframework/test/context/TestPropertySource.html)注解。
+> 3. 测试用例上的[@SpringBootTest#properties](http://docs.spring.io/spring-boot/docs/1.4.1.RELEASE/api/spring-boot-test/src/main/java/org/springframework/boot/test/context/SpringBootTest.html)注解。
+> 4. **命令行参数**（多个参数可以用空格分隔开）
+> 5. 来自`SPRING_APPLICATION_JSON`的属性（环境变量或系统属性中内嵌的内联JSON）。
+> 6. `ServletConfig`初始化参数。
+> 7. `ServletContext`初始化参数。
+> 8. **来自于`java:comp/env`的JNDI属性。**
+> 9. **Java系统属性（System.getProperties()）。**
+> 10. **操作系统环境变量。**
+> 11. **RandomValuePropertySource，只包含`random.`中的属性。**
+> 12. **没有打进jar包的[Profile-specific应用属性](http://docs.spring.io/spring-boot/docs/1.4.1.RELEASE/reference/htmlsingle/#boot-features-external-config-profile-specific-properties)（`application-{profile}.properties`和YAML变量）。**
+> 13. **打进jar包中的[Profile-specific应用属性](http://docs.spring.io/spring-boot/docs/1.4.1.RELEASE/reference/htmlsingle/#boot-features-external-config-profile-specific-properties)（`application-{profile}.properties`和YAML变量）。**
+> 14. **没有打进jar包的应用配置（`application.properties`和YAML变量）。**
+> 15. **打进jar包中的应用配置（`application.properties`和YAML变量）。**
+> 16. **`@Configuration`类上的[`@PropertySource`注解](http://docs.spring.io/spring/docs/4.3.3.RELEASE/javadoc-api/org/springframework/context/annotation/PropertySource.html)。**
+> 17. **默认属性（使用`SpringApplication.setDefaultProperties`指定）。**
+
+
+
+## 自动配置的原理
+
+配置文件可配置属性的范围：
+
+- [官方文档](https://qbgbook.gitbooks.io/spring-boot-reference-guide-zh/content/X.%20Appendices/A.%20Common%20application%20properties.html)
+
+
+
+自动配置原理：
+
+1. SpringBoot 启动时，加载主配置类，开启了自动配置功能 `@EnableAutoConfiguration`
+
+2. `@EnableAutoConfiguration` 作用
+
+   利用 `AutoConfigurationImportSelector.class` 给容器中导入组件，里面的 `public String[] selectImports(AnnotationMetadata annotationMetadata) { ... }` 方法中，
+
+   调用了 `protected AutoConfigurationImportSelector.AutoConfigurationEntry getAutoConfigurationEntry(AutoConfigurationMetadata autoConfigurationMetadata, AnnotationMetadata annotationMetadata) {...}` 方法，这里面有一句代码是这样的：
+
+   ```java
+   List<String> configurations = this.getCandidateConfigurations(annotationMetadata, attributes);
+   ```
+
+   通过这行代码来获取候选的配置。
+
+   ```java
+   protected List<String> getCandidateConfigurations(AnnotationMetadata metadata, AnnotationAttributes attributes) {
+       List<String> configurations = SpringFactoriesLoader.loadFactoryNames(
+           this.getSpringFactoriesLoaderFactoryClass(),
+           this.getBeanClassLoader());
+       Assert.notEmpty(configurations, "No auto configuration classes found in META-INF/spring.factories. If you are using a custom packaging, make sure that file is correct.");
+       return configurations;
+   }
+   ```
+
+   里面的 `loadFactoryNames` 方法的源码为：
+
+   ```java
+   public static List<String> loadFactoryNames(Class<?> factoryClass, @Nullable ClassLoader classLoader) {
+       String factoryClassName = factoryClass.getName();
+       return loadSpringFactories(classLoader).getOrDefault(factoryClassName, Collections.emptyList());
+   }
+   
+   private static Map<String, List<String>> loadSpringFactories(@Nullable ClassLoader classLoader) {
+       MultiValueMap<String, String> result = cache.get(classLoader);
+       if (result != null) {
+           return result;
+       }
+   
+       try {
+           // 扫描所有jar包类路径下的 META-INF/spring.factories 文件
+           Enumeration<URL> urls = (classLoader != null ?
+                                    classLoader.getResources(FACTORIES_RESOURCE_LOCATION) :                        ClassLoader.getSystemResources(FACTORIES_RESOURCE_LOCATION));
+           result = new LinkedMultiValueMap<>();
+           // 获取 url 后对每个 url 进行遍历
+           while (urls.hasMoreElements()) {
+               // 把扫描到的文件内容包装为 properties 对象
+               URL url = urls.nextElement();
+               UrlResource resource = new UrlResource(url);
+               Properties properties = 
+                   PropertiesLoaderUtils.loadProperties(resource);
+               for (Map.Entry<?, ?> entry : properties.entrySet()) {
+                   // 从 properties 对象中获取全类名
+                   String factoryClassName = ((String) entry.getKey()).trim();
+                   for (String factoryName : 
+                        StringUtils.
+                        commaDelimitedListToStringArray((String) 
+                                                        entry.getValue())) {
+                       // 添加
+                       result.add(factoryClassName, factoryName.trim());
+                   }
+               }
+           }
+           cache.put(classLoader, result);
+           return result;
+       }
+       catch (IOException ex) {
+           throw new 
+               IllegalArgumentException("Unable to load factories from location [" +　FACTORIES_RESOURCE_LOCATION + "]", ex);
+       }
+   }
+   
+   // 返回 EnableAutoConfiguration.class 类
+   protected Class<?> getSpringFactoriesLoaderFactoryClass() {
+       return EnableAutoConfiguration.class;
+   }
+   
+   ```
+
+   
+
+   所以总的来说，是将 META-INF/spring.factories 里面的所有 EnableAutoConfiguration 的值加入到容器中。使用这些类来做自动配置：
+
+   ![](https://gitee.com/PhoenixBM/FigureBed/raw/picgo/img/20190720100554.png)
+
+   
+
+3. 每一个自动配置类进行自动配置功能
+
+4. 以 `HttpEncodingAutoConfiguration` 为例
+
+   ```java
+   @Configuration
+   // 表示这是一个配置类
+   @EnableConfigurationProperties(HttpProperties.class)
+   // 启用指定类的 ConfigurationProperties 功能，将配置文件中对应的值与这个properties类绑定在一起，并把 HttpProperties 加入到 Ioc 容器中
+   @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
+   // Spring 底层注解，根据不同的条件决定配置是否生效；
+   // 判断当前应用是否为 web 应用，如果是则生效
+   @ConditionalOnClass(CharacterEncodingFilter.class)
+   // 判断当前项目有没有这个类(Spring MVC 解决乱码中的过滤器)
+   @ConditionalOnProperty(prefix = "spring.http.encoding", value = "enabled", matchIfMissing = true)
+// 判断在配置文件中是否启用，如果配置这个属性，也生效
+   public class HttpEncodingAutoConfiguration {
+   
+       // 已近与 SpringBoot 的配置文件映射了
+       private final HttpProperties.Encoding properties;
+   
+       // 只有一个有参构造器的情况下，参数的值会从容器中获取
+       public HttpEncodingAutoConfiguration(HttpProperties properties) {
+           this.properties = properties.getEncoding();
+       }
+   
+       // 给容器中添加组件，有些值需要从 properties 中获取
+       @Bean
+       // 容器中没有这个组件时候才会执行
+       @ConditionalOnMissingBean
+       public CharacterEncodingFilter characterEncodingFilter() {
+           CharacterEncodingFilter filter = new 
+               OrderedCharacterEncodingFilter();
+           filter.setEncoding(this.properties.getCharset().name());
+           filter.setForceRequestEncoding(
+               this.properties.shouldForce(Type.REQUEST));
+           filter.setForceResponseEncoding(
+               this.properties.shouldForce(Type.RESPONSE));
+           return filter;
+       }
+   ```
+   
+   根据当前不同的条件判断。决定配置类是否生效，一旦配置类生效，这个配置类就会在容器中添加各种组件，这些组件的属性是从对应的 propertie 类中获取的，而这些类的每一个属性又是和配置文件绑定的。
+   
+5. 所有在配置文件中能配置的属性都是在 xxxxProperties 类中封装着；**配置文件能配置什么就可以参照某个功能对应的这个属性类**
+
+   ```java
+   @ConfigurationProperties(prefix = "spring.http")
+   // 从配置文件中获取指定的值和 bean 的属性进行绑定
+   public class HttpProperties {
+   
+   ```
+
+   
+
+SpingBoot 的精髓：
+
+1. SpringBoot 启动会加载大量的自动配置类
+2. 我们需要的功能有没有 SpringBoot 默认写好的自动配置类
+3. 在看这个自动配置类到底配置了哪些组件，如果有，就不需要自动配置了
+4. 给容器中自动配置类添加组件的时候，会从 properties 类中获取某些属性，可以在配置文件中指定属性的值
+
+
+
+### `@Conditional` 扩展注解
+
+| @Conditional扩展注解            | 作用（判断是否满足当前指定条件）                 |
+| :------------------------------ | :----------------------------------------------- |
+| @ConditionalOnJava              | 系统的java版本是否符合要求                       |
+| @ConditionalOnBean              | 容器中存在指定Bean；                             |
+| @ConditionalOnMissingBean       | 容器中不存在指定Bean；                           |
+| @ConditionalOnExpression        | 满足SpEL表达式指定                               |
+| @ConditionalOnClass             | 系统中有指定的类                                 |
+| @ConditionalOnMissingClass      | 系统中没有指定的类                               |
+| @ConditionalOnSingleCandidate   | 容器中只有一个指定的Bean，或者这个Bean是首选Bean |
+| @ConditionalOnProperty          | 系统中指定的属性是否有指定的值                   |
+| @ConditionalOnResource          | 类路径下是否存在指定资源文件                     |
+| @ConditionalOnWebApplication    | 当前是web环境                                    |
+| @ConditionalOnNotWebApplication | 当前不是web环境                                  |
+| @ConditionalOnJndi              | JNDI存在指定项                                   |
+
+**自动配置类必须在一定的条件下才能生效；**
+
+查看哪些配置类自动生效：
+
+通过启用 debug 属性来打印自动配置报告：
+
+```properties
+# 开启 SpringBoot 的 debug 模式
+debug=true
+```
+
+![](https://gitee.com/PhoenixBM/FigureBed/raw/picgo/img/20190720112722.png)
 
