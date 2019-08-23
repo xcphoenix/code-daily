@@ -283,65 +283,247 @@ public class ThymeleafProperties {
 
     片段引用表达式
 
+  
+
+  **Literals**（字面量）
+
+  - Text literals: 'one text' , 'Another one!' ,…
+
+  - Number literals: 0 , 34 , 3.0 , 12.3 ,…
+
+  - Boolean literals: true , false
+
+  - Null literal: null
+
+  - Literal tokens: one , sometext , main ,…
+
     
 
-    **Literals**（字面量）
+  **Text operations:**（文本操作）
 
-    - Text literals: 'one text' , 'Another one!' ,…
+  - String concatenation: +
 
-    - Number literals: 0 , 34 , 3.0 , 12.3 ,…
+  - Literal substitutions: |The name is ${name}|
 
-    - Boolean literals: true , false
+    
 
-    - Null literal: null
+  **Arithmetic operations:**（数学运算）
 
-    - Literal tokens: one , sometext , main ,…
+  - Binary operators: + , - , * , / , %
 
-      
+  - Minus sign (unary operator): -
 
-    **Text operations:**（文本操作）
+    
 
-    - String concatenation: +
+  **Boolean operations:**（布尔运算）
 
-    - Literal substitutions: |The name is ${name}|
+  - Binary operators: and , or
 
-      
+  - Boolean negation (unary operator): ! , not
 
-    **Arithmetic operations:**（数学运算）
+    
 
-    - Binary operators: + , - , * , / , %
+  **Comparisons and equality:**（比较运算）
 
-    - Minus sign (unary operator): -
+  - Comparators: > , < , >= , <= ( gt , lt , ge , le )
 
-      
+  - Equality operators: == , != ( eq , ne )
 
-    **Boolean operations:**（布尔运算）
+    
 
-    - Binary operators: and , or
+  **Conditional operators:**（条件运算）
 
-    - Boolean negation (unary operator): ! , not
+  - If-then: (if) ? (then)
 
-      
+  - If-then-else: (if) ? (then) : (else)
 
-    **Comparisons and equality:**（比较运算）
+  - Default: (value) ?: (defaultvalue)
 
-    - Comparators: > , < , >= , <= ( gt , lt , ge , le )
+    
 
-    - Equality operators: == , != ( eq , ne )
+  **Special tokens:**
 
-      
+  - Page 17 of 104
+  - No-Operation: _
 
-    **Conditional operators:**（条件运算）
 
-    - If-then: (if) ? (then)
 
-    - If-then-else: (if) ? (then) : (else)
+## SpringBoot 对 MVC 的处理
 
-    - Default: (value) ?: (defaultvalue)
+SpringBoot 自动配置好了 SpringMVC。
 
-      
+### Spring MVC Auto-configuration
 
-    **Special tokens:**
+Spring Boot provides auto-configuration for Spring MVC that works well with most applications.
 
-    - Page 17 of 104
-    - No-Operation: _
+The auto-configuration adds the following features on top of Spring’s defaults:（默认配置）
+
+- Inclusion of `ContentNegotiatingViewResolver` and `BeanNameViewResolver` beans.
+
+  自动配置了视图解析器（根据方法的返回值获得视图对象，视图对象决定了如何渲染、转发、重定向）；
+
+  ContentNegotiatingViewResolver：组合所有的视图解析器；
+
+  可以自己给容器中添加一个视图解析器，会自动的将其组合起来；
+
+- Support for serving static resources, including support for WebJars (covered [later in this document](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-spring-mvc-static-content))).
+
+  静态资源文件。
+
+- Automatic registration of `Converter`, `GenericConverter`, and `Formatter` beans.
+
+  `Converter`：转换器，处理页面提交数据与对象等的类型转换；
+
+  `Formatter`：格式化器，将页面带来的数据进行数据转换时处理格式（比如，日期格式等）；
+
+  自己添加的格式化器或转换器，只需要放在容器中即可。
+
+- Support for `HttpMessageConverters` (covered [later in this document](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-spring-mvc-message-converters)).
+
+  `HttpMessageConverters`：消息转换器，SpringMVC 用来转换 Http 请求和响应的（例如：User => JSON），从容器中确定，获取所有的 `HttpMessageConverters`，实现自己的 `HttpMessageConverters`，只需要将自己的组件添加到组件中。
+
+- Automatic registration of `MessageCodesResolver` (covered [later in this document](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-spring-message-codes)).
+
+  `MessageCodesResolver`：定义错误代码生成规则。
+
+- Static `index.html` support.
+
+  静态首页访问。
+
+- Custom `Favicon` support (covered [later in this document](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-spring-mvc-favicon)).
+
+  图标。
+
+- Automatic use of a `ConfigurableWebBindingInitializer` bean (covered [later in this document](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-spring-mvc-web-binding-initializer)).
+
+  也可以配置 bean 放入容器中，替换默认的。
+
+  用来初始化 web 数据绑定，请求数据 ==> JavaBean，还牵扯到类型和格式转换。
+
+
+
+### 扩展 SpringMVC
+
+> If you want to keep Spring Boot MVC features and you want to add additional [MVC configuration](https://docs.spring.io/spring/docs/5.1.8.RELEASE/spring-framework-reference/web.html#mvc) (interceptors, formatters, view controllers, and other features), ***you can add your own `@Configuration` class of type `WebMvcConfigurer` but without `@EnableWebMvc`.*** If you wish to provide custom instances of `RequestMappingHandlerMapping`, `RequestMappingHandlerAdapter`, or `ExceptionHandlerExceptionResolver`, you can declare a `WebMvcRegistrationsAdapter` instance to provide such components.
+
+
+
+编写配置类（使用注解 `@Configuration `），是 `WebMvcConfigurer` 类型的，但不使用 `@EnableWebMvc` 注解。
+
+```java
+/**
+ * ClassName    spring-boot-04-web-restfulcrud-MyMvcConfig
+ * Description  {@link org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter}
+ *              已被废弃，需要实现 {@code WebMvcConfigurer} 或者继承 {@code WebMvcConfigurationSupport}
+ *
+ * @author      xuanc
+ * @date        2019/7/22 上午11:08
+ * @version     1.0
+ */
+@Configuration
+public class MyMvcConfig implements WebMvcConfigurer {
+
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("/xuanc").setViewName("success");
+    }
+}
+```
+
+SpringBoot 在自动配置很多组件的时候，先会查看容器中有没有用户自己配置的组件，如果没有才会使用默认的，如果有，则会将用户自定义的和默认组件组合起来。**既保留了默认配置，又扩展了配置。**
+
+在做其他配置的时候，会导入 `EnableWebMvcConfiguration.class`
+
+```java
+// Defined as a nested config to ensure WebMvcConfigurer is not read when not
+	// on the classpath
+	@Configuration
+	@Import(EnableWebMvcConfiguration.class)
+	@EnableConfigurationProperties({ WebMvcProperties.class, ResourceProperties.class })
+	@Order(0)
+	public static class WebMvcAutoConfigurationAdapter implements WebMvcConfigurer, ResourceLoaderAware {
+Defined as a nested config to ensure WebMvcConfigurer is not read when not
+	// on the classpath
+```
+
+
+
+```java
+	/**
+	 * Configuration equivalent to {@code @EnableWebMvc}.
+	 */
+	@Configuration
+	public static class EnableWebMvcConfiguration extends DelegatingWebMvcConfiguration {
+```
+
+```java
+@Configuration
+public class DelegatingWebMvcConfiguration extends WebMvcConfigurationSupport {
+
+	private final WebMvcConfigurerComposite configurers = new WebMvcConfigurerComposite();
+
+	// 从容器中获取所有的 WebMvcConfigurer，放到 configurers 中
+	@Autowired(required = false)
+	public void setConfigurers(List<WebMvcConfigurer> configurers) {
+		if (!CollectionUtils.isEmpty(configurers)) {
+			this.configurers.addWebMvcConfigurers(configurers);
+		}
+	}
+```
+
+在配置的时候，会遍历 `configurers` 里面的数据来处理，将所有的相关配置一起调用。
+
+所以我们自己所实现的配置类也会起作用。
+
+
+
+### 全面接管 SpringMVC
+
+> If you want to take complete control of Spring MVC, you can add your own `@Configuration` annotated with `@EnableWebMvc`
+
+放弃 SpringBoot 对 ***SpringMVC*** 的所有自动配置，**完全由自己配置**，全面接管。
+
+在自己配置的类上添加上 `@Configuration` 和 `@EnableWebMvc` 注解。
+
+**那么为什么这样会使得自动配置失效呢？**
+
+`@EnableWebMvc` 注解的代码：
+
+````java
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+@Documented
+// 核心，添加了 WebMvcConfigurationSupport 的一个实现
+@Import(DelegatingWebMvcConfiguration.class)
+public @interface EnableWebMvc {
+}
+````
+
+```java
+@Configuration
+public class DelegatingWebMvcConfiguration extends WebMvcConfigurationSupport {
+```
+
+而 WebMvc 的自动配置类
+
+```java
+@Configuration
+@ConditionalOnWebApplication(type = Type.SERVLET)
+@ConditionalOnClass({ Servlet.class, DispatcherServlet.class, WebMvcConfigurer.class })
+// 容器中没有这个类的时候，自动配置类才会生效
+@ConditionalOnMissingBean(WebMvcConfigurationSupport.class)
+@AutoConfigureOrder(Ordered.HIGHEST_PRECEDENCE + 10)
+@AutoConfigureAfter({ DispatcherServletAutoConfiguration.class, TaskExecutionAutoConfiguration.class,
+		ValidationAutoConfiguration.class })
+public class WebMvcAutoConfiguration {
+```
+
+
+
+## 修改 SpringBoot 的默认配置
+
+1. SpringBoot 在配置很多组件的时候，会先看容器中有没有用户自己配置的组件，如果没有的话会使用默认提供的组件，如果有用户自定义的配置，则将会将其与默认配置组合在一起。
+2. 在 SpringBoot 中会有非常多的 xxxConfigurer 帮助我们进行扩展配置。
+
+
+

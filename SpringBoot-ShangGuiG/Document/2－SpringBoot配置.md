@@ -1,4 +1,4 @@
-# Spring Boot 配置
+# **Spring** Boot 配置
 
 配置文件、加载顺序、配置原理
 
@@ -370,12 +370,12 @@ SpringBoot 会加载上述的所有文件，只是如果配置冲突，高优先
 ```properties
 server.port=8081
 
-# 配置项目的访问路径
+# 配置项目的访问路径，必须以 / 开始
 server.servlet.context-path=/springboot-demo
-# 新版本的配置改为：server.servlet.context-path，而不是　server.context-path
+# 新版本的配置改为：server.servlet.context-path，而不是 server.context-path
 ```
 
-![1563584399179](../images/1563584399179.png)
+![](https://gitee.com/PhoenixBM/FigureBed/raw/picgo/img/20190725104310.png)
 
 ### 指定配置文件路径
 
