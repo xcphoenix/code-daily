@@ -300,3 +300,324 @@ void if_it_is_negative(int year) {
 
 ![](https://gitee.com/PhoenixXc/FigureBed/raw/picgo/img/20190823182355.png)
 
+### 设置默认显示名称生成器
+
+你可以使用`junit.jupiter.displayname.generator.default`这个配置参数来指定默认的显示名称生成器的完全限定类名。就像通过`@DisplayNameGeneration`注解配置的显示名称生成器一样，提供的类必须实现`DisplayNameGenerator`接口。默认显示名称生成器将用于所有测试，除非封闭的测试类或测试接口上存在`@DisplayNameGeneration`注解。通过`@DisplayName`注解提供的值总是优先于由`DisplayNameGenerator`生成的显示名称。
+
+例如，要默认使用`ReplaceUnderscores`作为显示名称生成器，应将配置参数设置为相应的完全限定类名称：
+
+```properties
+junit.jupiter.displayname.generator.default = org.junit.jupiter.api.DisplayNameGenerator$ReplaceUnderscores
+```
+
+同样，可以指定实现了接口`DisplayNameGenerator`的任何自定义类的完全限定名。
+
+总之，测试类或方法的显示名称是根据以下优先级规则确定的:
+
+1. `@DisplayName`注解的值（如果存在）
+2. 通过调用`@DisplayNameGeneration`注解中指定的DisplayNameGenerator（如果存在）
+3. 通过调用通过配置参数配置的默认DisplayNameGenerator（如果存在）
+4. 调用`org.junit.jupiter.api.DisplayNameGenerator.Standard`
+
+## 断言
+
+JUnit Jupiter附带了许多JUnit 4所拥有的断言方法，并添加了一些适合与Java 8 lambdas一起使用的方法。 所有JUnit Jupiter断言都是`org.junit.jupiter.api.Assertions`类中的静态方法。
+
+```java
+package com.junit5.example;
+
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assumptions.*;
+
+public class AssertionsDemo {
+
+    private final Calculator calculator = new Calculator();
+
+    @Test
+    void testOnlyOnCiServer() {
+        assumeTrue("CI".equals(System.getenv("ENV")));
+    }
+
+    @Test
+    void testOnlyOnDeveloperWorkstation() {
+        // if assumption is false, throw TestAbortedException with (String)message.get
+        assumeTrue("DEV".equals(System.getenv("ENV")),
+                () -> "Aborting test: not on developer workstation");
+    }
+
+    @Test
+    void testInAllEnvironments() {
+        assumingThat("CI".equals(System.getenv("ENV")),
+                () -> {
+                    // 不会执行...
+                    assertEquals(4, calculator.divide(4, 2));
+                });
+        assertEquals(42, calculator.multiply(6, 7));
+    }
+
+}
+
+```
+
+## 禁用测试
+
+所有的测试类和单个的测试方法，都可以使用注解`@Disabled`、自定义条件执行测试或者是在自定义执行条件来禁用。
+
+这是`@Disabled`修饰类的例子：
+
+```java
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+
+@Disabled("Disabled until bug #99 has been fixed")
+class DisabledClassDemo {
+
+    @Test
+    void testWillBeSkipped() {
+    }
+
+}
+```
+
+修饰方法：
+
+```java
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+
+class DisabledTestsDemo {
+
+    @Disabled("Disabled until bug #42 has been resolved")
+    @Test
+    void testWillBeSkipped() {
+    }
+
+    @Test
+    void testWillBeExecuted() {
+    }
+
+}
+```
+
+> 使用`@Disabled`可以不需要原因，但JUnit开发团队建议开发者应该提供一个为什么禁用测试方法或类的简要说明。
+
+## 条件化的测试
+
+JUnit Jupiter中的`ExecutionCondition`扩展API允许开发人员以编程方式基于某些条件启用或禁用容器或测试。 这种情况最简单的例子是内置的`DisabledCondition`，它支持@Disabled注释）。 除了@Disabled之外，JUnit Jupiter还支持`org.junit.jupiter.api.condition`包中的其他几个基于注释的条件，允许开发人员以声明方式启用或禁用容器和测试。 
+
+> 请注意，以下部分中列出的任何条件注释也可以用作元注释，以便创建自定义组合注释。
+
+> 以下部分中列出的每个条件注释只能在给定的测试接口，测试类或测试方法上声明一次。 如果条件注释在给定元素上直接存在，间接存在或元存在多次，则只使用JUnit发现的第一个这样的注释；任何其他声明都将被默认忽略。 但每个条件注释都可以与`org.junit.jupiter.api.condition`包中的其他条件注释一起使用。
+
+### 操作系统条件
+
+可以通过`@EnabledOnOs`和`@DisabledOnOs`注释在特定的操作系统上启用或禁用容器或测试。
+
+```java
+@Test
+@EnabledOnOs(MAC)
+void onlyOnMacOs() {
+    // ...
+}
+
+@TestOnMac
+void testOnMac() {
+    // ...
+}
+
+@Test
+@EnabledOnOs({ LINUX, MAC })
+void onLinuxOrMac() {
+    // ...
+}
+
+@Test
+@DisabledOnOs(WINDOWS)
+void notOnWindows() {
+    // ...
+}
+
+@Target(ElementType.METHOD)
+@Retention(RetentionPolicy.RUNTIME)
+@Test
+@EnabledOnOs(MAC)
+@interface TestOnMac {
+}
+```
+
+### Java 运行环境条件
+
+可以通过`@EnabledOnJre`和`@DisabledOnJre`注释在特定版本的Java运行时环境（JRE）上启用或禁用容器或测试。
+
+```java
+@Test
+@EnabledOnJre(JAVA_8)
+void onlyOnJava8() {
+    // ...
+}
+
+@Test
+@EnabledOnJre({ JAVA_9, JAVA_10 })
+void onJava9Or10() {
+    // ...
+}
+
+@Test
+@DisabledOnJre(JAVA_9)
+void notOnJava9() {
+    // ...
+}
+```
+
+### 系统属性条件
+
+一个容器或测试可以使用注解 `@EnabledIfSystemProperty` 或 ` @DisabledIfSystemProperty` 中的 `named` 属性，根据 JVM 系统属性来启用或者禁用 。通过`matches`属性提供的值将被解释为正则表达式。
+
+```java
+@Test
+@EnabledIfSystemProperty(named = "os.arch", matches = ".*64.*")
+void onlyOn64BitArchitectures() {
+    // ...
+}
+
+@Test
+@DisabledIfSystemProperty(named = "ci-server", matches = "true")
+void notOnCiServer() {
+    // ...
+}
+```
+
+### 环境变量条件
+
+一个容器或测试可以使用注解 `@EnabledIfEnvironmentVariable` 或 ` @DisabledIfEnvironmentVariable ` 中的 `named` 属性，根据底层操作系统的环境变量属性来启用或者禁用 。支持使用正则表达式设置 `match` 属性的值。
+
+```java
+@Test
+@EnabledIfEnvironmentVariable(named = "ENV", matches = "staging-server")
+void onlyOnStagingServer() {
+    // ...
+}
+
+@Test
+@DisabledIfEnvironmentVariable(named = "ENV", matches = ".*development.*")
+void notOnDeveloperWorkstation() {
+    // ...
+}
+```
+
+### 基于脚本的测试条件
+
+> 在未来的版本中，使用 `@EnabledIf` 和 `@DisabledIf` 这两个注解的测试执行条件不推荐被弃用。
+
+JUnit Jupiter 提供了在使用注解 `@EabledIf` 或 `@DisabledIf` 的情况下，通过可执行的脚本来配置容器或测试是否被启用的功能。脚本可以用JavaScript、Groovy或任何其他支持Java脚本API(由JSR 223定义)的脚本语言编写。
+
+> 如果脚本的逻辑仅依赖于当前操作系统、当前的Java运行时环境版本、特定的JVM系统属性或特定的环境变量，您应该考虑使用专用于该目的的内置注释之一。
+
+> 如果您发现自己多次使用相同的脚本条件，可以考虑实现[`ExecutionCondition`](https://junit.org/junit5/docs/current/api/org/junit/jupiter/api/extension/ExecutionCondition.html)接口，以便以更快、类型安全、更易于维护的方式实现该条件。
+
+```java
+@Test // Static JavaScript expression.
+@EnabledIf("2 * 3 == 6")
+void willBeExecuted() {
+    // ...
+}
+
+@RepeatedTest(10) // Dynamic JavaScript expression.
+@DisabledIf("Math.random() < 0.314159")
+void mightNotBeExecuted() {
+    // ...
+}
+
+@Test // Regular expression testing bound system property.
+@DisabledIf("/32/.test(systemProperty.get('os.arch'))")
+void disabledOn32BitArchitectures() {
+    assertFalse(System.getProperty("os.arch").contains("32"));
+}
+
+@Test
+@EnabledIf("'CI' == systemEnvironment.get('ENV')")
+void onlyOnCiServer() {
+    assertTrue("CI".equals(System.getenv("ENV")));
+}
+
+@Test // Multi-line script, custom engine name and custom reason.
+@EnabledIf(value = {
+                "load('nashorn:mozilla_compat.js')",
+                "importPackage(java.time)",
+                "",
+                "var today = LocalDate.now()",
+                "var tomorrow = today.plusDays(1)",
+                "tomorrow.isAfter(today)"
+            },
+            engine = "nashorn",
+            reason = "Self-fulfilling: {result}")
+void theDayAfterTomorrow() {
+    LocalDate today = LocalDate.now();
+    LocalDate tomorrow = today.plusDays(1);
+    assertTrue(tomorrow.isAfter(today));
+}
+```
+
+#### 脚本绑定
+
+以下名称绑定到每个脚本上下文，因此可在脚本中使用。 访问器可以通过简单的String get（String name）方法对类似map结构的值的访问。
+
+| Name                          | Type          | Description                                     |
+| :---------------------------- | :------------ | :---------------------------------------------- |
+| `systemEnvironment`           | *accessor*    | Operating system environment variable accessor. |
+| `systemProperty`              | *accessor*    | JVM system property accessor.                   |
+| `junitConfigurationParameter` | *accessor*    | Configuration parameter accessor.               |
+| `junitDisplayName`            | `String`      | Display name of the test or container.          |
+| `junitTags`                   | `Set<String>` | All tags assigned to the test or container.     |
+| `junitUniqueId`               | `String`      | Unique ID of the test or container.             |
+
+## 标签和过滤
+
+可以通过`@Tag`注解标记测试类和方法。 稍后可以使用这些标记来过滤测试发现和执行。
+
+> 参考：标签表达式（ [Tag Expressions](https://junit.org/junit5/docs/current/user-guide/#running-tests-tag-expressions)）
+
+### 标签的语法规则
+
+- 标签必须非空（`null` 或 `''`）
+- 标签被修剪后不能包含空格
+- 标签被修剪后不能包含IsO控制字符
+- 标签被修剪后不能包含以下任何一个保留字符：
+  - ,
+  - (
+  - )
+  - &
+  - |
+  - !
+
+> 修剪（“trim”）表示删除了前面和后面的空格字符。
+
+```java
+@Tag("fast")
+@Tag("model")
+public class TaggingDemo {
+
+    @Test
+    @Tag("taxes")
+    void testingTaxCalculation() {
+    }
+    
+}
+```
+
+## 测试执行顺序
+
+默认情况下，测试方法将使用确定性但有意不明显的算法进行排序。 这确保了测试套件的后续运行以相同的顺序执行测试方法，从而允许可重复的构建。
+
+尽管单元测试不应该依赖于执行顺序，但是有时候强制执行顺序是必须的——例如，在编写集成测试或功能测试时，测试顺序很重要，特别是与`@TestInstance(Lifecycle.PER_CLASS)`结合使用。
+
+为了控制测试方法的执行顺序，在测试类或接口上使用注解`@TestMethodOrder`并且指定想要的方法顺序的实现（ `MethodOrderer` ）。你可以实现你的自定义 `MethodOrderer` 或者使用内置的 `MethodOrder`实现。
+
+- [`Alphanumeric`](https://junit.org/junit5/docs/current/api/org/junit/jupiter/api/MethodOrderer.Alphanumeric.html): 根据测试方法名和参数列表的字母数字排序
+- [`OrderAnnotation`](https://junit.org/junit5/docs/current/api/org/junit/jupiter/api/MethodOrderer.OrderAnnotation.html): 通过注释在方法上的注解 `@Order`的值来排序
+- [`Random`](https://junit.org/junit5/docs/current/api/org/junit/jupiter/api/MethodOrderer.Random.html): 伪随机排序测试方法，并支持自定义种子的配置
+
+下面的示例演示了如何确保测试方法按照@Order注释指定的顺序执行。
+

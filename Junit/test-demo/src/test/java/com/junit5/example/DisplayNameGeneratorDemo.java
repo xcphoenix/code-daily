@@ -24,7 +24,7 @@ public class DisplayNameGeneratorDemo {
         @DisplayName("A negative value for years is not supported by the leap year computation.")
         @ParameterizedTest(name = "For example, year {0} is not supported. " +
                 "{displayName} + {index} + {arguments}")
-        @ValueSource(intsk = {-1, -4})
+        @ValueSource(ints = {-1, -4})
         void if_it_is_negative(int year) {
         }
 
