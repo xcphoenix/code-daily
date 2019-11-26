@@ -24,7 +24,7 @@ public class Main {
                 sqlSession =SqlSessionFactoryUtils.openSqlSession();
                 EmployeeMapper employeeMapper = sqlSession.getMapper(EmployeeMapper.class);
                 Employee employee = employeeMapper.getEmployee(1L);
-                logger.info(employee.getBirthday());
+                logger.info(employee == null ? "employee is null" : employee.getBirthday());
         } catch(Exception e){
             e.printStackTrace();
         } finally {
