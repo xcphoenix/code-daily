@@ -1,0 +1,23 @@
+Manifest-Version: 1.0
+Main-Class: top.xcphoenix.selenium.Spider
+Class-Path: selenium-ie-driver-4.0.0-alpha-3.jar mitm-2.1.5.jar okhttp-4
+ .0.1.jar selenium-java-4.0.0-alpha-3.jar j2objc-annotations-1.1.jar com
+ mons-exec-1.3.jar selenium-edge-driver-4.0.0-alpha-3.jar selenium-chrom
+ ium-driver-4.0.0-alpha-3.jar opentracing-api-0.33.0.jar checker-qual-2.
+ 5.2.jar animal-sniffer-annotations-1.17.jar failureaccess-1.0.1.jar sel
+ enium-edgehtml-driver-4.0.0-alpha-3.jar jackson-core-2.8.9.jar selenium
+ -firefox-driver-4.0.0-alpha-3.jar commons-lang3-3.5.jar littleproxy-1.1
+ .0-beta-bmp-17.jar dnsjava-2.1.8.jar okio-2.2.2.jar selenium-devtools-4
+ .0.0-alpha-3.jar selenium-opera-driver-4.0.0-alpha-3.jar jackson-annota
+ tions-2.8.9.jar annotations-13.0.jar error_prone_annotations-2.2.0.jar 
+ log4j-1.2.17.jar selenium-firefox-xpi-driver-4.0.0-alpha-3.jar selenium
+ -api-4.0.0-alpha-3.jar listenablefuture-9999.0-empty-to-avoid-conflict-
+ with-guava.jar browsermob-core-2.1.5.jar selenium-json-4.0.0-alpha-3.ja
+ r selenium-chrome-driver-4.0.0-alpha-3.jar selenium-support-4.0.0-alpha
+ -3.jar jsr305-3.0.2.jar netty-all-4.0.51.Final.jar bcprov-jdk15on-1.58.
+ jar jackson-databind-2.8.9.jar jzlib-1.1.3.jar jcl-over-slf4j-1.7.25.ja
+ r selenium-remote-driver-4.0.0-alpha-3.jar kotlin-stdlib-common-1.3.40.
+ jar selenium-safari-driver-4.0.0-alpha-3.jar byte-buddy-1.9.12.jar bcpk
+ ix-jdk15on-1.58.jar selenium-http-4.0.0-alpha-3.jar guava-27.1-jre.jar 
+ kotlin-stdlib-1.3.40.jar slf4j-api-1.7.25.jar
+
