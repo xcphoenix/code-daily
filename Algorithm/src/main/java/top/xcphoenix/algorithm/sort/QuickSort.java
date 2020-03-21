@@ -45,7 +45,7 @@ public class QuickSort {
 
     /**
      * @see #qSort
-     * 基准值策略不同
+     * 基准值策略不同：选择最后一个作为基准值
      */
     public static void qSort2(int[] arr, int head, int tail) {
         if (head >= tail || arr == null || arr.length <= 1) {

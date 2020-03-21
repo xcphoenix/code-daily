@@ -18,6 +18,7 @@ public class HeapSort {
         int len = arr.length - 1;
         // 第一个非根节点
         int beginIndex = (arr.length >> 1) - 1;
+        // 遍历非根节点
         for (int i = beginIndex; i >= 0; i--) {
             maxHeapify(i, len);
         }
