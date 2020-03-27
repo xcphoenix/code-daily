@@ -51,15 +51,20 @@ public class QuickSort {
         if (head >= tail || arr == null || arr.length <= 1) {
             return;
         }
+        // 选择最后一个作为基准值
         int i = head, j = tail - 1, pivot = arr[tail];
 
         while (i <= j) {
             while (arr[i] < pivot) {
                 i++;
             }
-            while (j >= 0 && arr[j] > pivot) {
+            while (j >= 0 && arr[j] >= pivot) {
                 j--;
             }
+
+            /* 不存在i > j的情况 */
+
+            // 交换
             if (i < j) {
                 swap(arr, i, j);
                 i++;
@@ -80,7 +85,7 @@ public class QuickSort {
     }
 
     public static void main(String[] args) {
-        int[] arr = new int[]{0, 0};
+        int[] arr = new int[]{3, 4, 1, 5, 6, 7, 9};
         qSort2(arr, 0, arr.length - 1);
         System.out.println(Arrays.toString(arr));
     }
