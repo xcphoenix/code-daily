@@ -23,6 +23,7 @@ public class HeapSort {
             maxHeapify(i, len);
         }
 
+        // 依次获取最大值，将最大值放在数组最后，并维护堆的性质
         for (int i = len; i > 0; i--) {
             swap(0, i);
             maxHeapify(0, i - 1);

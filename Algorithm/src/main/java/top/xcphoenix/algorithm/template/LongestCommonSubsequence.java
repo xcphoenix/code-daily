@@ -7,7 +7,7 @@ package top.xcphoenix.algorithm.template;
  */
 public class LongestCommonSubsequence {
 
-    private int dp[][];
+    private int[][] dp;
 
     public LongestCommonSubsequence(String str1, String str2) {
         dp = new int[str1.length() + 1][str2.length() + 1];
@@ -18,25 +18,27 @@ public class LongestCommonSubsequence {
         int m = str1.length();
         int n = str2.length();
 
-        for (int i = 0; i < m; i++) {
+        for (int i = 0; i <= m; i++) {
             dp[i][0] = 0;
         }
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i <= n; i++) {
             dp[0][i] = 0;
         }
 
         for (int i = 1; i <= m; i++) {
-            for (int j = 2; j <= n; j++) {
+            for (int j = 1; j <= n; j++) {
                 if (str1.charAt(i - 1) == str2.charAt(j - 1)) {
+                    // 肯定在
                     dp[i][j] = dp[i - 1][j - 1] + 1;
                 } else {
+                    // 至少有一个不在
                     dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
                 }
             }
         }
     }
 
-    public int getLCS() {
+    public int getLcs() {
         return dp[dp.length - 1][dp[0].length - 1];
     }
 
@@ -45,7 +47,7 @@ public class LongestCommonSubsequence {
                 "abcde",
                 "ace"
         );
-        System.out.println(lcs.getLCS());
+        System.out.println(lcs.getLcs());
     }
 
 }
