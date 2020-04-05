@@ -58,11 +58,7 @@ public class LevelOrder {
     }
 
     public static void main(String[] args) {
-        TreeNode node = new TreeNode(3);
-        node.left = new TreeNode(9);
-        node.right = new TreeNode(20);
-        node.right.left = new TreeNode(15);
-        node.right.right = new TreeNode(7);
+        TreeNode node = TreeNode.buildExample(new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9});
         System.out.println(solution(node));
     }
 
