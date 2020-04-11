@@ -1,5 +1,7 @@
 package top.xcphoenix.algorithm.datastruct.tree.traversal;
 
+import top.xcphoenix.algorithm.datastruct.tree.TreeNode;
+
 import java.util.Stack;
 
 /**

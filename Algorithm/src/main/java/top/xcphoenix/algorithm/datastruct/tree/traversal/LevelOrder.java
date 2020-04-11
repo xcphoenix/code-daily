@@ -1,5 +1,7 @@
 package top.xcphoenix.algorithm.datastruct.tree.traversal;
 
+import top.xcphoenix.algorithm.datastruct.tree.TreeNode;
+
 import java.util.*;
 
 /**
@@ -18,7 +20,7 @@ public class LevelOrder {
 
         queue.offer(root);
         List<Integer> first = new ArrayList<>();
-        first.add(root.val);
+        first.add(root.getVal());
         result.add(first);
 
         solve(result, queue);
@@ -42,19 +44,19 @@ public class LevelOrder {
     private static void addTree(Queue<TreeNode> queue, List<Integer> list) {
         TreeNode node = queue.poll();
         if (node != null) {
-            if (node.left != null) {
-                queue.offer(node.left);
-                record(list, node.left);
+            if (node.getLeft() != null) {
+                queue.offer(node.getLeft());
+                record(list, node.getLeft());
             }
-            if (node.right != null) {
-                queue.offer(node.right);
-                record(list, node.right);
+            if (node.getRight() != null) {
+                queue.offer(node.getRight());
+                record(list, node.getRight());
             }
         }
     }
 
     private static void record(List<Integer> lists, TreeNode node) {
-        lists.add(node.val);
+        lists.add(node.getVal());
     }
 
     public static void main(String[] args) {

@@ -1,10 +1,8 @@
-package top.xcphoenix.algorithm.datastruct.tree.traversal;
-
-import sun.reflect.generics.tree.Tree;
+package top.xcphoenix.algorithm.datastruct.tree;
 
 import java.util.LinkedList;
+import java.util.Objects;
 import java.util.Queue;
-import java.util.TreeMap;
 
 /**
  * @author xuanc
@@ -16,7 +14,7 @@ public class TreeNode {
     TreeNode left;
     TreeNode right;
 
-    TreeNode(int x) {
+    public TreeNode(int x) {
         this.val = x;
     }
 
@@ -72,6 +70,25 @@ public class TreeNode {
         }
 
         return root;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof TreeNode)) {
+            return false;
+        }
+        TreeNode treeNode = (TreeNode) o;
+        return getVal() == treeNode.getVal() &&
+                Objects.equals(getLeft(), treeNode.getLeft()) &&
+                Objects.equals(getRight(), treeNode.getRight());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getVal(), getLeft(), getRight());
     }
 
 }
