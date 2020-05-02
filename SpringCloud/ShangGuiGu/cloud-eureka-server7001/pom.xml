@@ -9,8 +9,7 @@
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	
-	<!-- 继承了父工程，不需要写GA -->
-	<artifactId>cloudproviderpayment8001</artifactId>
+	<artifactId>cloud-eureka-server7001</artifactId>
 	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -21,18 +20,19 @@
 	</properties>
 	
 	<dependencies>
-		<!-- Eureka client -->
 		<dependency>
-			<groupId>org.springframework.cloud </groupId>
-			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
 		</dependency>
 		
+		<!-- 自定义公共包 -->
 		<dependency>
 			<groupId>org.example</groupId>
 			<artifactId>cloud-api-commons</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		
+		<!-- Web -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -41,24 +41,8 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>org.mybatis.spring.boot</groupId>
-			<artifactId>mybatis-spring-boot-starter</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.alibaba</groupId>
-			<artifactId>druid-spring-boot-starter</artifactId>
-			<version>1.1.10</version>
-		</dependency>
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-jdbc</artifactId>
-		</dependency>
 		
+		<!-- 一般通用包 -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
@@ -78,7 +62,7 @@
 	</dependencies>
 	
 	<build>
-		<finalName>cloud-provider-payment8001</finalName>
+		<finalName>cloud-eureka-server7001</finalName>
 		<plugins>
 			<!-- 热部署 -->
 			<plugin>

@@ -10,7 +10,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	
 	<!-- 继承了父工程，不需要写GA -->
-	<artifactId>cloudproviderpayment8001</artifactId>
+	<artifactId>cloudproviderpayment8002</artifactId>
 	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

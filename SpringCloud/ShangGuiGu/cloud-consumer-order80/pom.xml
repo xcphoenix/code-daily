@@ -20,6 +20,12 @@
 	</properties>
 	
 	<dependencies>
+		<!-- Eureka client -->
+		<dependency>
+			<groupId>org.springframework.cloud </groupId>
+			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+		</dependency>
+		
 		<!-- 自定义的公共api部分 -->
 		<dependency>
 			<groupId>org.example</groupId>
@@ -55,7 +61,17 @@
 	</dependencies>
 	
 	<build>
+		<finalName>cloud-consumer-order80</finalName>
 		<plugins>
+			<!-- 热部署 -->
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<fork>true</fork>
+					<addResources>true</addResources>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
