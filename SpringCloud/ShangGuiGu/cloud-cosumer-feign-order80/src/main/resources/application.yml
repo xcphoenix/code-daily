@@ -1,0 +1,27 @@
+server:
+  port: 8080
+  
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: true
+    service-url:
+      # defaultZone: http://localhost:7001/eureka
+      # 集群
+      defaultZone: http://eureka7001:7001/eureka/,http://eureka7002:7002/eureka/
+
+feign:
+  client:
+    config:
+      default:
+        # 建立链接后从服务器读取到可用资源所用的时间
+        connectTimeout: 5000
+        # 两端建立连接所用的时间
+        readTimeout: 5000
+        # 设置日志类型，打印
+        loggerLevel: full
+
+
+logging:
+  level:
+    com.example.springcloud.service.PaymentFeignService: debug
