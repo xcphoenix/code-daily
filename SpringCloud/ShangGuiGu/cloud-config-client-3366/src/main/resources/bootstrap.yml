@@ -1,5 +1,5 @@
 server:
-  port: 3355
+  port: 3366
 
 spring:
   application:
@@ -10,11 +10,6 @@ spring:
       name: config
       profile: dev
       uri: http://config3344:3344
-      
-eureka:
-  client:
-    service-url:
-      defaultZone: http://eureka7001:7001/eureka
 
 # 配置rabbitmq
 rabbitmq:
@@ -22,6 +17,11 @@ rabbitmq:
   port: 5672
   username: guest
   password: guest
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka7001:7001/eureka
 
 management:
   endpoints:

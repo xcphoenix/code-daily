@@ -20,6 +20,11 @@
 	</properties>
 	
 	<dependencies>
+		<!-- Bus: RabbitMQ -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-bus-amqp</artifactId>
+		</dependency>
 		<!-- Eureka client -->
 		<dependency>
 			<groupId>org.springframework.cloud </groupId>
