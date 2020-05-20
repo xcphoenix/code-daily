@@ -32,17 +32,14 @@ public class OrderController {
     // 不写死，使用服务名替代
     public static final String PAYMENT_URL = "http://CLOUD-PAYMENT-SERVICE";
 
-    private final RestTemplate restTemplate;
+    @Resource
+    private RestTemplate restTemplate;
 
     @Autowired
     private LoadBalancer loadBalancer;
 
     @Autowired
     private DiscoveryClient discoveryClient;
-
-    public OrderController(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
-    }
 
     @PostMapping("/consumer/payment/create")
     public CommonResult create(Payment payment) {
@@ -75,5 +72,11 @@ public class OrderController {
         URI uri = instance.getUri();
         return restTemplate.getForObject(uri + "/payment/lb", String.class);
     }
+
+    @GetMapping("/consumer/payment/zipkin")
+    public String paymentZipkin() {
+        return restTemplate.getForObject(PAYMENT_URL + "/payment/zipkin", String.class);
+    }
+
 
 }
