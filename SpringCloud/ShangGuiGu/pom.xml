@@ -30,6 +30,8 @@
 		<module>cloud-config-client-3366</module>
 		<module>cloud-stream-rabbitmq-provider8801</module>
 		<module>cloud-stream-rabbbitmq-consumer8802</module>
+		<module>cloudalibaba-provider-payment9001</module>
+		<module>cloudablibaba-consumer-nacos-order83</module>
 	</modules>
 	
 	<!-- 统一管理jar包版本 -->
