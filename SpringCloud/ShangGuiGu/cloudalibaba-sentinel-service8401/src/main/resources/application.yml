@@ -13,7 +13,18 @@ spring:
         dashboard: localhost:12345
         # 默认8719，如果被占用会自动从8719开始+1扫描
         port: 8719
-
+      # 配置datasource
+      datasource:
+        # 数据源名
+        ds1:
+          # 使用nacos
+          nacos:
+            server-addr: localhost:8848
+            dataId: ${spring.application.name}-flow-rules
+            groupId: SENTINEL_GROUP
+            data-type: json
+            rule-type: flow
+      
 # 监控
 management:
   endpoints:
