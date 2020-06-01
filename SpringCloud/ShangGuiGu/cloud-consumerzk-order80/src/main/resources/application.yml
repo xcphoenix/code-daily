@@ -1,0 +1,10 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    # 微服务注册名称
+    name: cloud-consumerzk-order
+  cloud:
+    zookeeper:
+      connect-string: 169.22.2.2:2181

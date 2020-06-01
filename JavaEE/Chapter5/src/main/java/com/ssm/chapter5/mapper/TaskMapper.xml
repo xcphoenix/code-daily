@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--
+    对应任务表
+-->
+
+<mapper namespace="com.ssm.chapter5.mapper.TaskMapper">
+    <select id="getTask" parameterType="long" resultType="com.ssm.chapter5.pojo.Task">
+        SELECT id, title, context, note from t_task where id = ${id}
+    </select>
+</mapper>

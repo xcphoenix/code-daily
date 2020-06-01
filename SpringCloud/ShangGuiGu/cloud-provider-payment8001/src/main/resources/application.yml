@@ -1,0 +1,54 @@
+server:
+  port: 8001
+
+spring:
+  application:
+    # 微服务注册名称
+    name: cloud-payment-service
+  zipkin:
+    base-url: http://localhost:9411
+  sleuth:
+    sampler:
+      # 采样率值介于 0 ~ 1，1表示全部收集
+      probability: 1
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: org.gjt.mm.mysql.Driver
+    url: jdbc:mysql://localhost:3306/db2019?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: root
+    password: mysqlpass
+
+    druid:
+      # 指明是否在从池中取出连接前进行检验,如果检验失败, 则从池中去除连接并尝试取出另一个，
+      #注意: 设置为true后如果要生效,validationQuery参数必须设置为非空字符串
+      test-on-borrow:   false
+      # 指明连接是否被空闲连接回收器(如果有)进行检验.如果检测失败,则连接将被从池中去除.
+      #注意: 设置为true后如果要生效,validationQuery参数必须设置为非空字符串
+      test-while-idle:  true
+      # 指明是否在归还到池中前进行检验，注意: 设置为true后如果要生效,
+      #validationQuery参数必须设置为非空字符串
+      test-on-return:   false
+      # SQL查询,用来验证从连接池取出的连接,在将连接返回给调用者之前.
+      #如果指定,则查询必须是一个SQL SELECT并且必须返回至少一行记录
+      validation-query: select 1
+    
+
+eureka:
+  client:
+    # true: 将自己注册到 Eureka
+    register-with-eureka: true
+    # true: 是否从 EurekaServer 中抓取已存在的注册信息，单节点都可，集群必须为 true
+    fetch-registry: true
+    service-url:
+      # defaultZone: http://localhost:7001/eureka
+      # 集群
+      defaultZone: http://eureka7001:7001/eureka/,http://eureka7002:7002/eureka/
+  # 名称
+#  instance:
+#    instance-id: payment8001
+#    prefer-ip-address: true
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.example.com.example.com.example.springcloud.entities
+

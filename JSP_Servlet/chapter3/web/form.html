@@ -1,0 +1,21 @@
+<!DOCTYPE>
+<html>
+<head>
+    <title>form</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <form action="/chapter3/body.view" method="post">
+        名称: <input type="text" name="user"><br>
+        密码: <input type="password" name="passed"><br><br>
+        <input type="submit" name="login" value="送出">
+    </form>
+    <br>
+    <h3>上传文件 需要设置属性为: enctype="multipart/form-data"</h3>
+    <form action="/chapter3/body.view" method="post" enctype="multipart/form-data">
+        选择文件: <input type="file" name="filename" value=""><br>
+        <input type="submit" value="Upload" name="upload">
+    </form>
+</body>
+
+</html>

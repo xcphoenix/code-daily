@@ -1,0 +1,136 @@
+/*　链接样式 */
+a:link {
+    color: #537152;
+    text-decoration: none;
+}
+
+a:visited {
+    color: #9e4cb8;
+}
+
+a:hover, a:active {
+    color: #608ee1;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+#container {
+    background-image: url("../images/bg.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+div#message {
+    background-color: beige;
+    padding: 25px;
+    float: left;
+}
+
+/* 脚注 */
+#footer {
+    clear: both;
+    padding: 5px;
+    text-align: center;
+    background-color: #393530;
+    color: #ffffff;
+}
+
+/* 用户消息 */
+#header {
+    text-align: center;
+    background-color: #393530;
+    padding: 4px;
+    margin: 0;
+    color: #ffffff;
+}
+
+#container {
+    margin: -10px;
+}
+
+#userData {
+    padding: 15px;
+    width: auto;
+    background-color: antiquewhite;
+    float: left;
+    position: relative;
+    left: 20px;
+    top: -10px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: rgba(235, 220, 200, 0.65);
+    box-shadow: 5px 5px 5px rgba(39, 39, 39, 0.22);
+    border-radius: 5px;
+    opacity: 0.95;
+}
+
+.avatar {
+    float: left;
+    width: 100px;
+    height: 100px;
+    display: inline;
+}
+
+.avatar img {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+}
+
+.userMessage {
+    float: left;
+    display: inline;
+    /*vertical-align: center;*/
+    position: relative;
+    left: 20px;
+    top: 20px;
+    width: 100px;
+    height: 100px;
+}
+
+div#message {
+    float: left;
+    position: relative;
+    left: 40px;
+    top: -10px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: rgba(245, 245, 245, 0.6);
+    box-shadow: 5px 5px 5px rgba(39, 39, 39, 0.22);
+    border-radius: 5px;
+    opacity: 0.9;
+}
+
+#message textarea {
+    width: 80%;
+    border-radius: 5px;
+    border-width: 0;
+    box-shadow: 5px 5px 5px rgba(39, 39, 39, 0.22) inset;
+    margin-top: 20px;
+    opacity: 1;
+}
+
+.weibo {
+    padding-left: 15px;
+    padding-top: 3px;
+    padding-bottom: 5px;
+
+    width: 80%;
+    margin-bottom: 20px;
+
+    border-style: solid;
+    border-width: 0 0 0 5px;
+    border-color: rgba(62, 62, 62, 0.87);
+
+    background-color: rgba(208, 208, 208, 0.35);
+    opacity: 1;
+}
+
+.weibo p {
+    width: 90%;
+    word-wrap:break-word;
+}
+.messageTime {
+    background-color: rgba(202, 202, 202, 0.35);
+    border-radius: 5px;
+}

@@ -1,0 +1,6 @@
+# 设置环境
+spring:
+  profiles:
+     active: dev
+#    active: test
+#    active: info

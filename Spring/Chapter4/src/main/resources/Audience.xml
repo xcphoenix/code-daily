@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:component-scan base-package="xuanc.convert_xml" />
+
+    <!--定义bean-->
+    <bean id="audience" class="xuanc.convert_xml.Audience"/>
+    <bean id="performance" class="xuanc.convert_xml.XuptPerformance"/>
+    <bean id="encoreableIntroducer" class="xuanc.convert_xml.EncoreableIntroducer" />
+
+    <!-- 通过XML来将无注解的Audience声明为切面 -->
+
+    <!--Old Audience-->
+    <!--*************************************************************************************************************-->
+    <!--<aop:config>-->
+    <!--    &lt;!&ndash;定义一个切面&ndash;&gt;-->
+    <!--    <aop:aspect ref="audience">-->
+    <!--        &lt;!&ndash;定义切点&ndash;&gt;-->
+    <!--        <aop:pointcut id="performance" expression="execution(* xuanc.convert_xml.Performance.perform(..))"/>-->
+
+    <!--        &lt;!&ndash;表演之前&ndash;&gt;-->
+    <!--        <aop:before method="silenceCellPhones"-->
+    <!--                    pointcut-ref="performance" />-->
+    <!--        &lt;!&ndash;表演成功之后&ndash;&gt;-->
+    <!--        <aop:after-returning method="applause"-->
+    <!--                             pointcut-ref="performance" />-->
+    <!--        &lt;!&ndash;表演失败之后&ndash;&gt;-->
+    <!--        <aop:after-throwing method="demandRefund"-->
+    <!--                            pointcut-ref="performance" />-->
+    <!--    </aop:aspect>-->
+    <!--</aop:config>-->
+    <!--*************************************************************************************************************-->
+
+    <!--New Audience => 环绕通知-->
+    <aop:config>
+        <aop:aspect ref="audience">
+            <!-- 定义一个切点 -->
+            <aop:pointcut id="performance" expression="execution(* xuanc.convert_xml.Performance.perform(..))"/>
+
+            <!-- 声明环绕通知 -->
+            <aop:around method="watchPerformance" pointcut-ref="performance"/>
+
+            <!-- 引入新的功能 -->
+            <aop:declare-parents types-matching="xuanc.convert_xml.Performance+"
+                                 implement-interface="xuanc.convert_xml.Encoreable"
+                                 default-impl="xuanc.convert_xml.DefaultEncoreable"/>
+        </aop:aspect>
+    </aop:config>
+
+</beans>

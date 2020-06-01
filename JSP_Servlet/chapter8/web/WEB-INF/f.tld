@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taglib xmlns="http://java.sun.com/xml/ns/javaee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd"
+        version="2.1">
+
+    <tlib-version>1.0</tlib-version>
+    <short-name>f</short-name>              <!--SHORT_NAME-->
+    <uri>http://openhome.cc/jstl/fake</uri> <!--URI-->
+
+    <!-- Invoke 'Generate' action to add tags or functions -->
+    <!-- 定义<tag>相关信息 -->
+    <tag>
+        <name>if</name>
+        <!--名称-->
+        <tag-class>cc.openhome.tag.ifTag</tag-class>
+        <!--类名-->
+        <body-content>scriptless</body-content>
+        <!--处理Scriptlet等的方式-->
+        <attribute>
+            <name>test</name>
+            <!--属性名-->
+            <required>true</required>
+            <!--是否一定要设置这个属性-->
+            <rtexprvalue>true</rtexprvalue>
+            <!--是否接受运行时运算的结果，不设置或为false表示只接受字符串形式-->
+            <type>boolean</type>
+            <!--属性类型-->
+        </attribute>
+        <!--属性-->
+    </tag>
+
+    <tag>
+        <name>forEach</name>
+        <tag-class>cc.openhome.tag.ForEachTag</tag-class>
+        <body-content>scriptless</body-content>
+        <attribute>
+            <name>var</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <name>items</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+            <type>java.util.Collection</type>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>toUpperCase</name>
+        <tag-class>cc.openhome.tag.ToUpperCaseTag</tag-class>
+        <body-content>scriptless</body-content>
+    </tag>
+
+    <!-- fake => choose when otherwise -->
+    <tag>
+        <name>choose</name>
+        <tag-class>cc.openhome.tag.ChooseTag</tag-class>
+        <body-content>scriptless</body-content>
+    </tag>
+    <tag>
+        <name>when</name>
+        <tag-class>cc.openhome.tag.WhenTag</tag-class>
+        <body-content>scriptless</body-content>
+        <attribute>
+            <name>test</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+            <type>boolean</type>
+        </attribute>
+    </tag>
+    <tag>
+        <name>otherwise</name>
+        <tag-class>cc.openhome.tag.OtherwiseTag</tag-class>
+        <body-content>scriptless</body-content>
+    </tag>
+</taglib>

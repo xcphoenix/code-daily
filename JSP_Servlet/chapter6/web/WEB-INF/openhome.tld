@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<taglib xmlns="http://java.sun.com/xml/ns/javaee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd"
+        version="2.1">
+    <!--
+     参考：　https://www.cnblogs.com/z941030/p/4767712.html
+     -->
+    <tlib-version>1.0</tlib-version>
+    <short-name>openhome</short-name>
+    <!--一般与文件名、前缀名称相同，方便查找，不相同也可。-->
+    <uri>/WEB-INF/util</uri>
+    <!-- Invoke 'Generate' action to add tags or functions -->
+
+    <function>
+        <name>length</name>
+        <!--自定义 EL 函数名-->
+        <function-class>cc.opnehome.Util</function-class>
+        <!--对应的类-->
+        <function-signature>
+            int length(java.util.Collection)
+        </function-signature>
+        <!--对应类中的方法-->
+    </function>
+
+</taglib>
