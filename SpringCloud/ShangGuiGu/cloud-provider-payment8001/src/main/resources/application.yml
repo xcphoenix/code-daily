@@ -50,5 +50,5 @@ eureka:
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml
-  type-aliases-package: com.example.springcloud.entities
+  type-aliases-package: com.example.com.example.com.example.springcloud.entities
 

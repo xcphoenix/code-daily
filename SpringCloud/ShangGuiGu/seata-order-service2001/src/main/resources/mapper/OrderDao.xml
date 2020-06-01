@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.springcloud.dao.OrderDao">
+	
+	<insert id="create" parameterType="com.example.springcloud.domain.Order">
+		INSERT INTO t_order(id, user_id, product_id, count, money, status)
+		VALUES (null, #{order.userId}, #{order.productId}, #{order.count}, #{order.money}, 0)
+	</insert>
+	
+	<update id="update" parameterType="com.example.springcloud.domain.Order">
+		UPDATE t_order
+		SET status = 1
+		WHERE user_id = #{userId}
+		  AND status = #{status}
+	</update>
+	
+</mapper>

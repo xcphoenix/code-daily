@@ -34,6 +34,9 @@
 		<module>cloudablibaba-consumer-nacos-order83</module>
 		<module>cloudalibaba-config-nacos-client3377</module>
 		<module>cloudalibaba-sentinel-service8401</module>
+		<module>seata-order-service2001</module>
+		<module>seata-storage-service2003</module>
+		<module>seata-account-service2002</module>
 	</modules>
 	
 	<!-- 统一管理jar包版本 -->

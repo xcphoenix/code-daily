@@ -8,7 +8,7 @@ spring:
     config:
       server:
         git:
-          uri: /home/xuanc/桌面/LearnJava/SpringCloud/ShangGuiGu/springcloud-config
+          uri: /home/xuanc/桌面/LearnJava/SpringCloud/ShangGuiGu/com.example.com.example.springcloud-config
       label: master
 
 # 配置rabbitmq
