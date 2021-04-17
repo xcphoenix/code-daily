@@ -6,7 +6,7 @@ import (
     "fmt"
     "os"
     "os/signal"
-    
+
     "C"
     bpf "github.com/iovisor/gobpf/bcc"
 )
@@ -34,32 +34,32 @@ type execEvent struct {
 func main() {
     module := bpf.NewModule(source, []string{})
     defer module.Close()
-    
+
     execKprobeFd, err := module.LoadKprobe("kprobe__do_execveat_common")
     if err != nil {
         _, _ = fmt.Fprintf(os.Stderr, "Failed to load kprobe__do_execveat_common: %s\n", err)
         os.Exit(1)
     }
-    
+
     err = module.AttachKprobe("do_execveat_common", execKprobeFd, -1)
     if err != nil {
         _, _ = fmt.Fprintf(os.Stderr, "Failed to attach do_execveat_common: %s\n", err)
         os.Exit(1)
     }
-    
+
     table := bpf.NewTable(module.TableId("events"), module)
-    
+
     channel := make(chan []byte)
-    
+
     perfMap, err := bpf.InitPerfMap(table, channel, nil)
     if err != nil {
         _, _ = fmt.Fprintf(os.Stderr, "Failed to init perf map: %s\n", err)
         os.Exit(1)
     }
-    
+
     sig := make(chan os.Signal, 1)
     signal.Notify(sig, os.Interrupt)
-    
+
     go func() {
        var event execEvent
        for {
