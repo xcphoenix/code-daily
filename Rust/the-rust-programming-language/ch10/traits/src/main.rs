@@ -4,7 +4,7 @@ use std::fmt::{Debug, Display};
  * Traits test
  */
 fn main() {
-    println!("Hello, world!");
+    returns_summarizable(true);
 }
 
 
@@ -33,23 +33,32 @@ pub fn notify_where<T, U>(t: T, u: U)
           U: Clone + Debug
 {}
 
-// TODO 返回多个 不能编译
-fn returns_summarizable(switch: bool) -> impl Summary {
+// Rust 之所以要求函数不能返回多种类型是因为 Rust 在需要在
+// 编译期确定返回值占用的内存大小, 显然不同类型的返回值其内存大小不一定相同.
+fn returns_summarizable(switch: bool) -> Box<dyn Summary> {
+    // NewArticle {
+    //     headline: String::from("Penguins win the Stanley Cup Championship!"),
+    //     location: String::from("Pittsburgh, PA, USA"),
+    //     author: String::from("Iceburgh"),
+    //     content: String::from("The Pittsburgh Penguins once again are the best
+    //         hockey team in the NHL."),
+    // }
+    
     if switch {
-        NewsArticle {
+        Box::new(NewArticle {
             headline: String::from("Penguins win the Stanley Cup Championship!"),
             location: String::from("Pittsburgh, PA, USA"),
             author: String::from("Iceburgh"),
             content: String::from("The Pittsburgh Penguins once again are the best
             hockey team in the NHL."),
-        }
+        })
     } else {
-        Tweet {
+        Box::new(Tweet {
             username: String::from("horse_ebooks"),
             content: String::from("of course, as you probably already know, people"),
             reply: false,
             retweet: false,
-        }
+        })
     }
 }
 
